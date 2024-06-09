@@ -1,0 +1,15 @@
+server:
+    port: 8081
+
+spring:
+    application:
+        name: miigras-backend
+    datasource:
+        url: jdbc:mysql://localhost:3307/miigras_db
+        username: root
+        password: KhT321
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
