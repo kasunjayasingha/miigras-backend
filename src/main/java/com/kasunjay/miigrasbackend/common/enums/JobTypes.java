@@ -1,6 +1,6 @@
 package com.kasunjay.miigrasbackend.common.enums;
 
-public enum PersonTypes {
+public enum JobTypes {
     WORKER,
     DRIVER,
     HELPER,

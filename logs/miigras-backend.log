@@ -1,0 +1,126 @@
+2024-06-11T18:06:16.476+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
+2024-06-11T18:06:16.477+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-11T18:06:16.696+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-11T18:06:16.702+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2024-06-11T18:06:16.804+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-11T18:06:16.806+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-11T18:06:16.806+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-11T18:06:16.825+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-11T18:06:16.825+05:30  INFO 4652 --- [miigras-backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 346 ms
+2024-06-11T18:06:16.876+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-11T18:06:16.880+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-11T18:06:16.890+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-11T18:06:16.891+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Starting...
+2024-06-11T18:06:16.908+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-14 - Added connection com.mysql.cj.jdbc.ConnectionImpl@61313bd1
+2024-06-11T18:06:16.908+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Start completed.
+2024-06-11T18:06:17.088+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-11T18:06:17.200+05:30  INFO 4652 --- [miigras-backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:06:17.225+05:30  WARN 4652 --- [miigras-backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-11T18:06:17.358+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-11T18:06:17.374+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-06-11T18:06:17.380+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Started MiigrasBackendApplication in 0.935 seconds (process running for 5655.726)
+2024-06-11T18:06:17.382+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-06-11T18:06:35.267+05:30  INFO 4652 --- [miigras-backend] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-06-11T18:06:35.297+05:30  INFO 4652 --- [miigras-backend] [Thread-55] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:06:35.298+05:30  INFO 4652 --- [miigras-backend] [Thread-55] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown initiated...
+2024-06-11T18:06:35.304+05:30  INFO 4652 --- [miigras-backend] [Thread-55] com.zaxxer.hikari.HikariDataSource       : HikariPool-14 - Shutdown completed.
+2024-06-11T18:06:35.380+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
+2024-06-11T18:06:35.380+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-11T18:06:35.532+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-11T18:06:35.537+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2024-06-11T18:06:35.617+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-11T18:06:35.617+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-11T18:06:35.617+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-11T18:06:35.630+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-11T18:06:35.630+05:30  INFO 4652 --- [miigras-backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 249 ms
+2024-06-11T18:06:35.668+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-11T18:06:35.670+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-11T18:06:35.676+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-11T18:06:35.677+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Starting...
+2024-06-11T18:06:35.689+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-15 - Added connection com.mysql.cj.jdbc.ConnectionImpl@36cd277b
+2024-06-11T18:06:35.689+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Start completed.
+2024-06-11T18:06:35.909+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-11T18:06:35.996+05:30  INFO 4652 --- [miigras-backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:06:36.018+05:30  WARN 4652 --- [miigras-backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-11T18:06:36.140+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-11T18:06:36.155+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-06-11T18:06:36.161+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Started MiigrasBackendApplication in 0.806 seconds (process running for 5674.507)
+2024-06-11T18:06:36.161+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-06-11T18:06:59.999+05:30  INFO 4652 --- [miigras-backend] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-06-11T18:07:00.028+05:30  INFO 4652 --- [miigras-backend] [Thread-59] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:07:00.029+05:30  INFO 4652 --- [miigras-backend] [Thread-59] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown initiated...
+2024-06-11T18:07:00.034+05:30  INFO 4652 --- [miigras-backend] [Thread-59] com.zaxxer.hikari.HikariDataSource       : HikariPool-15 - Shutdown completed.
+2024-06-11T18:07:00.104+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
+2024-06-11T18:07:00.104+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-11T18:07:00.246+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-11T18:07:00.250+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2024-06-11T18:07:00.315+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-11T18:07:00.315+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-11T18:07:00.316+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-11T18:07:00.327+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-11T18:07:00.327+05:30  INFO 4652 --- [miigras-backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 220 ms
+2024-06-11T18:07:00.359+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-11T18:07:00.361+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-11T18:07:00.367+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-11T18:07:00.368+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Starting...
+2024-06-11T18:07:00.383+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-16 - Added connection com.mysql.cj.jdbc.ConnectionImpl@79c5e7fd
+2024-06-11T18:07:00.383+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Start completed.
+2024-06-11T18:07:00.518+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-11T18:07:00.589+05:30  INFO 4652 --- [miigras-backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:07:00.614+05:30  WARN 4652 --- [miigras-backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-11T18:07:00.730+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-11T18:07:00.740+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-06-11T18:07:00.744+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Started MiigrasBackendApplication in 0.657 seconds (process running for 5699.09)
+2024-06-11T18:07:00.745+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-06-11T18:18:15.349+05:30  INFO 4652 --- [miigras-backend] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 1 deletion, 0 modifications)
+2024-06-11T18:18:15.491+05:30  INFO 4652 --- [miigras-backend] [Thread-63] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:18:15.495+05:30  INFO 4652 --- [miigras-backend] [Thread-63] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown initiated...
+2024-06-11T18:18:15.557+05:30  INFO 4652 --- [miigras-backend] [Thread-63] com.zaxxer.hikari.HikariDataSource       : HikariPool-16 - Shutdown completed.
+2024-06-11T18:18:15.675+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
+2024-06-11T18:18:15.675+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-11T18:18:15.909+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-11T18:18:15.916+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2024-06-11T18:18:16.121+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-11T18:18:16.122+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-11T18:18:16.122+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-11T18:18:16.138+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-11T18:18:16.138+05:30  INFO 4652 --- [miigras-backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 461 ms
+2024-06-11T18:18:16.191+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-11T18:18:16.195+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-11T18:18:16.202+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-11T18:18:16.202+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Starting...
+2024-06-11T18:18:16.214+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-17 - Added connection com.mysql.cj.jdbc.ConnectionImpl@235db171
+2024-06-11T18:18:16.214+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Start completed.
+2024-06-11T18:18:16.358+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-11T18:18:16.440+05:30  INFO 4652 --- [miigras-backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:18:16.457+05:30  WARN 4652 --- [miigras-backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-11T18:18:16.557+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-11T18:18:16.571+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-06-11T18:18:16.578+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Started MiigrasBackendApplication in 0.947 seconds (process running for 6374.924)
+2024-06-11T18:18:16.580+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-06-11T18:18:17.983+05:30  INFO 4652 --- [miigras-backend] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2024-06-11T18:18:18.003+05:30  INFO 4652 --- [miigras-backend] [Thread-67] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:18:18.004+05:30  INFO 4652 --- [miigras-backend] [Thread-67] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Shutdown initiated...
+2024-06-11T18:18:18.009+05:30  INFO 4652 --- [miigras-backend] [Thread-67] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Shutdown completed.
+2024-06-11T18:18:18.081+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
+2024-06-11T18:18:18.081+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
+2024-06-11T18:18:18.224+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-11T18:18:18.228+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2024-06-11T18:18:18.296+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2024-06-11T18:18:18.297+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-06-11T18:18:18.297+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.24]
+2024-06-11T18:18:18.309+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-06-11T18:18:18.309+05:30  INFO 4652 --- [miigras-backend] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 226 ms
+2024-06-11T18:18:18.340+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-11T18:18:18.342+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-11T18:18:18.348+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-11T18:18:18.349+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Starting...
+2024-06-11T18:18:18.360+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-18 - Added connection com.mysql.cj.jdbc.ConnectionImpl@670fbec0
+2024-06-11T18:18:18.360+05:30  INFO 4652 --- [miigras-backend] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-18 - Start completed.
+2024-06-11T18:18:18.504+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-11T18:18:18.576+05:30  INFO 4652 --- [miigras-backend] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-11T18:18:18.591+05:30  WARN 4652 --- [miigras-backend] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-11T18:18:18.672+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-06-11T18:18:18.680+05:30  INFO 4652 --- [miigras-backend] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2024-06-11T18:18:18.684+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Started MiigrasBackendApplication in 0.624 seconds (process running for 6377.029)
+2024-06-11T18:18:18.685+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged

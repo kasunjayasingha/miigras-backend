@@ -40,12 +40,5 @@ public class Person extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne
-    @JoinColumn(name = "person_type_id")
-    private PersonType personType;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "gradient_id")
-    private Gradient gradient;
 
 }
