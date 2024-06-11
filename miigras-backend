@@ -1,4 +1,3 @@
-2024-06-11T18:05:59.670+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : Starting MiigrasBackendApplication using Java 17.0.8 with PID 4652 (D:\Project\miigras\target\classes started by kasun_t in D:\Project\miigras)
 2024-06-11T18:05:59.670+05:30  INFO 4652 --- [miigras-backend] [restartedMain] c.k.m.MiigrasBackendApplication          : No active profile set, falling back to 1 default profile: "default"
 2024-06-11T18:05:59.811+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
 2024-06-11T18:05:59.815+05:30  INFO 4652 --- [miigras-backend] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.

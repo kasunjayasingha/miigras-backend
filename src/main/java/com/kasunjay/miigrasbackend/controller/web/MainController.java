@@ -1,11 +1,14 @@
 package com.kasunjay.miigrasbackend.controller.web;
 
+import com.kasunjay.miigrasbackend.common.enums.Success;
+import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.service.core.MainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/main")
@@ -14,4 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     private final MainService mainService;
+
+    @PostMapping("/saveCountry")
+    public ResponseEntity<StandardResponse> saveCountry(@RequestBody Country country) {
+        log.info("MainController.saveCountry. country");
+        mainService.saveCountry(country);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Country saved"), HttpStatus.OK);
+    }
 }
