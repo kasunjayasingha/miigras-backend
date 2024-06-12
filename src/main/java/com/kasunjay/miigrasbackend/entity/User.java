@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -16,6 +17,7 @@ public class User extends BaseEntity {
     private String mobile;
 
     @Column(length = 60)
+    @Transient
     private String password;
 
     private String role;

@@ -14,8 +14,9 @@ public class StandardResponse {
     private String error;
     private String message;
 
-    public StandardResponse(HttpStatus status, String error, String message) {
+    public StandardResponse(HttpStatus status, Success success, String error, String message) {
         this.status = status;
+        this.success = success;
         this.error = error;
         this.message = message;
     }

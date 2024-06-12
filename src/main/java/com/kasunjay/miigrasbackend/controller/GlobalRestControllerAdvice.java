@@ -18,12 +18,12 @@ public class GlobalRestControllerAdvice  extends ResponseEntityExceptionHandler 
     @ExceptionHandler(value = {UserException.class})
     public ResponseEntity<StandardResponse> userException(UserException exception) {
         log.error("UserException:: " + exception.getMessage());
-        return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage(), ""), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = {MainServiceException.class})
     public ResponseEntity<StandardResponse> mainServiceException(MainServiceException exception) {
         log.error("MainServiceException:: " + exception.getMessage());
-        return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

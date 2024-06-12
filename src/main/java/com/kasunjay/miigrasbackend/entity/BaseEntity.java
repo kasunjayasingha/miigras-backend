@@ -18,17 +18,20 @@ public class BaseEntity {
     private Long id;
 
     @NotNull(message = "Created by is mandatory")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "created_by")
+    @Transient
     private String createdBy;
 
-    @NotNull(message = "Updated by is mandatory")
-    @Column(nullable = false)
+    @Transient
+    @Column(name = "updated_by")
     private String updatedBy;
 
     @CreationTimestamp
     @Column(updatable = false)
+    @Transient
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
+    @Transient
     private LocalDateTime updatedDate;
 }

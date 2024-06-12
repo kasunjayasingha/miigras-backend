@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/main")
 @Slf4j
@@ -23,5 +25,11 @@ public class MainController {
         log.info("MainController.saveCountry. country");
         mainService.saveCountry(country);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Country saved"), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountryList")
+    public ResponseEntity<List<Country>> getCountryList() {
+        log.info("MainController.getCountry.code:");
+        return new ResponseEntity<>(mainService.getCountryList(), HttpStatus.OK);
     }
 }
