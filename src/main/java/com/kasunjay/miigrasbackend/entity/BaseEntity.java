@@ -21,8 +21,7 @@ public class BaseEntity {
     @Column(nullable = false)
     private String createdBy;
 
-    @NotNull(message = "Updated by is mandatory")
-    @Column(nullable = false)
+    @Column
     private String updatedBy;
 
     @CreationTimestamp
