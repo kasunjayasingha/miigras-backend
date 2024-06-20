@@ -10,8 +10,6 @@ import java.util.List;
 @Table(name = "domain_ministry")
 @Data
 public class DomainMinistry extends BaseEntity {
-    private Long id;
-
     private String email;
 
     private String fax;
