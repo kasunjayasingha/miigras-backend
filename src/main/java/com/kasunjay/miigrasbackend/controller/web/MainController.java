@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.controller.web;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.DomainMinistryDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.service.core.MainService;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,12 @@ public class MainController {
     public ResponseEntity<List<Country>> getCountryList() {
         log.info("MainController.getCountry.code:");
         return new ResponseEntity<>(mainService.getCountryList(), HttpStatus.OK);
+    }
+
+    @PostMapping("/saveDomainMinistry")
+    public ResponseEntity<StandardResponse> saveDomainMinistry(@RequestBody DomainMinistryDTO domainMinistryDTO) {
+        log.info("MainController.saveDomainMinistry.called");
+        mainService.saveDomainMinistry(domainMinistryDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Domain Ministry saved"), HttpStatus.OK);
     }
 }

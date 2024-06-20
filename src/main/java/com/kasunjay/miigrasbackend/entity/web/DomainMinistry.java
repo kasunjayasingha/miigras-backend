@@ -3,6 +3,7 @@ package com.kasunjay.miigrasbackend.entity.web;
 import com.kasunjay.miigrasbackend.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 public class DomainMinistry extends BaseEntity {
 
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String fax;
