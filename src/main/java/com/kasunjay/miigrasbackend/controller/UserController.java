@@ -3,6 +3,7 @@ package com.kasunjay.miigrasbackend.controller;
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.User;
 import com.kasunjay.miigrasbackend.event.RegistrationCompleteEvent;
+import com.kasunjay.miigrasbackend.model.AuthRequestDTO;
 import com.kasunjay.miigrasbackend.model.PasswordModel;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.UserModel;
@@ -62,6 +63,13 @@ public class UserController {
     @PostMapping("/changePassword")
     public ResponseEntity<StandardResponse> changePassword(@RequestBody PasswordModel passwordModel) {
         return userService.changePassword(passwordModel);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthRequestDTO authRequestDTO){
+        return new ResponseEntity<>(
+                userService.login(authRequestDTO),HttpStatus.OK
+        );
     }
 
     private String applicationUrl(HttpServletRequest request) {

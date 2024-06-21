@@ -1,9 +1,7 @@
 package com.kasunjay.miigrasbackend.service.core;
 
 import com.kasunjay.miigrasbackend.entity.User;
-import com.kasunjay.miigrasbackend.model.PasswordModel;
-import com.kasunjay.miigrasbackend.model.StandardResponse;
-import com.kasunjay.miigrasbackend.model.UserModel;
+import com.kasunjay.miigrasbackend.model.*;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -20,4 +18,6 @@ public interface UserService {
     ResponseEntity<StandardResponse> saveNewPassword(String token, PasswordModel passwordModel);
 
     ResponseEntity<StandardResponse> changePassword(PasswordModel passwordModel);
+
+    AuthResponseDTO login(AuthRequestDTO authRequestDTO);
 }

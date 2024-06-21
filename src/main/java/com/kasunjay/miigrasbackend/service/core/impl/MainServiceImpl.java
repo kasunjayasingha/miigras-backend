@@ -2,9 +2,11 @@ package com.kasunjay.miigrasbackend.service.core.impl;
 
 import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
 import com.kasunjay.miigrasbackend.common.mapper.MainMapper;
+import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.web.Country;
 import com.kasunjay.miigrasbackend.entity.web.DomainMinistry;
-import com.kasunjay.miigrasbackend.model.DomainMinistryDTO;
+import com.kasunjay.miigrasbackend.model.web.CountryDTO;
+import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
 import com.kasunjay.miigrasbackend.repository.CountryRepo;
 import com.kasunjay.miigrasbackend.repository.DomainMinistryRepo;
 import com.kasunjay.miigrasbackend.service.core.MainService;
@@ -26,14 +28,15 @@ public class MainServiceImpl implements MainService {
     private final MainMapper mainMapper;
 
     @Override
-    public void saveCountry(Country country) {
+    public void saveCountry(CountryDTO countryDTO) {
         try {
-            if(country.getCode() == null || country.getName() == null || country.getNtpTime() == null){
+            if(countryDTO.getCode() == null || countryDTO.getName() == null || countryDTO.getNtpTime() == null){
                 log.error("MainServiceImpl.saveCountry.country is null");
                 throw new MainServiceException("Country is null");
             }
             // Save country
-            country.setCreatedBy("admin");
+            Country country = mainMapper.countryDTOToCountry(countryDTO);
+            country.setCreatedBy("ADMIN");
             countryRepo.save(country);
             log.info("MainServiceImpl.saveCountry.country saved: {}", country.getName());
         }catch (Exception e){
@@ -64,7 +67,7 @@ public class MainServiceImpl implements MainService {
             }
             // Save domain ministry
             DomainMinistry domainMinistry = mainMapper.domainMinistryDTOToDomainMinistry(domainMinistryDTO);
-            domainMinistry.setCreatedBy("admin");
+            domainMinistry.setCreatedBy("ADMIN");
             domainMinistryRepo.save(domainMinistry);
             log.info("MainServiceImpl.saveDomainMinistry.domainMinistry saved: {}", domainMinistry.getName());
         }catch (Exception e){

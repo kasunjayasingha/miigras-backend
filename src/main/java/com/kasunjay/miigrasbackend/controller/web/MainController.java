@@ -2,9 +2,11 @@ package com.kasunjay.miigrasbackend.controller.web;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.web.Country;
-import com.kasunjay.miigrasbackend.model.DomainMinistryDTO;
+import com.kasunjay.miigrasbackend.model.web.CountryDTO;
+import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.service.core.MainService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ public class MainController {
     private final MainService mainService;
 
     @PostMapping("/saveCountry")
-    public ResponseEntity<StandardResponse> saveCountry(@RequestBody Country country) {
+    public ResponseEntity<StandardResponse> saveCountry(@RequestBody @Valid CountryDTO country) {
         log.info("MainController.saveCountry. country");
         mainService.saveCountry(country);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Country saved"), HttpStatus.OK);

@@ -1,4 +1,4 @@
-package com.kasunjay.miigrasbackend.model;
+package com.kasunjay.miigrasbackend.model.web;
 
 import lombok.Data;
 

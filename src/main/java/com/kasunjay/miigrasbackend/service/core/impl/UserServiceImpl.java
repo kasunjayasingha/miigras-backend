@@ -1,22 +1,30 @@
 package com.kasunjay.miigrasbackend.service.core.impl;
 
+import com.kasunjay.miigrasbackend.common.enums.Roles;
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.common.exception.UserException;
 import com.kasunjay.miigrasbackend.common.mapper.UserMapper;
+import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.PasswordResetToken;
+import com.kasunjay.miigrasbackend.entity.Token;
 import com.kasunjay.miigrasbackend.entity.User;
 import com.kasunjay.miigrasbackend.entity.VerificationToken;
-import com.kasunjay.miigrasbackend.model.PasswordModel;
-import com.kasunjay.miigrasbackend.model.StandardResponse;
-import com.kasunjay.miigrasbackend.model.UserModel;
+import com.kasunjay.miigrasbackend.model.*;
 import com.kasunjay.miigrasbackend.repository.PasswordResetTokenRepo;
+import com.kasunjay.miigrasbackend.repository.TokenRepo;
 import com.kasunjay.miigrasbackend.repository.UserRepo;
 import com.kasunjay.miigrasbackend.repository.VerificationTokenRepo;
+import com.kasunjay.miigrasbackend.service.JWTService;
 import com.kasunjay.miigrasbackend.service.core.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,14 +42,19 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepository;
     private final UserMapper userMapper;
     private final PasswordResetTokenRepo passwordResetTokenRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
+    private final TokenRepo tokenRepository;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public User registerUser(UserModel userModel) {
         try {
             log.info("registerUser service method called");
             User user = userMapper.userModelToUser(userModel);
-            user.setRole("USER");
-            user.setPassword(userModel.getPassword());
+            user.setRole(userModel.getRole());
+            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
             return userRepository.save(user);
         }catch (Exception e) {
             e.printStackTrace();
@@ -115,7 +128,7 @@ public class UserServiceImpl implements UserService {
             if( user== null){
                 throw new UserException("Invalid Token");
             }
-            user.setPassword(passwordModel.getNewPassword());
+            user.setPassword(passwordEncoder.encode(passwordModel.getNewPassword()));
             userRepository.save(user);
             return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Password Reset Successfully"), HttpStatus.OK);
 
@@ -132,11 +145,8 @@ public class UserServiceImpl implements UserService {
             if (!user.isPresent()) {
                 throw new UserException("User not found");
             }
-//            if (!passwordEncoder.matches(passwordModel.getOldPassword(), user.get().getPassword())) {
-//                throw new UserException("Invalid Old Password");
-//            }
-            if(passwordModel.getOldPassword().equals(passwordModel.getNewPassword())){
-                throw new UserException("New Password cannot be the same as the Old Password");
+            if (!passwordEncoder.matches(passwordModel.getOldPassword(), user.get().getPassword())) {
+                throw new UserException("Invalid Old Password");
             }
             if (passwordModel.getNewPassword() == null || passwordModel.getNewPassword().length() < 3) {
                 throw new UserException("Password must be at least 3 characters long");
@@ -145,6 +155,39 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user.get());
             return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Password Changed Successfully"), HttpStatus.OK);
         }catch (Exception e) {
+            e.printStackTrace();
+            throw new UserException(e.getMessage());
+        }
+    }
+
+    @Override
+    public AuthResponseDTO login(AuthRequestDTO authRequestDTO) {
+        try{
+            Authentication authenticate = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword())
+            );
+            if (authenticate.isAuthenticated()) {
+                Optional<User> user = Optional.ofNullable(userRepository.findByEmail(authRequestDTO.getUsername()));
+                if (!user.isPresent()) {
+                    throw new UserException("User not found");
+                }
+                if (!user.get().isEnabled()) {
+                    throw new UserException("User not verified");
+                }
+                revokeAllUserTokens(user.get().getEmail());
+                String access_token = jwtService.generateToken(userDetailsService.loadUserByUsername(user.get().getEmail()));
+                Token token = new Token(access_token,user.get().getEmail());
+                tokenRepository.save(token);
+                return new AuthResponseDTO(
+                        user.get().getId(),
+                        user.get().getRole().toString(),
+                        access_token
+                );
+            } else {
+                throw new UserException("Invalid Credentials");
+            }
+
+        }catch (Exception e){
             e.printStackTrace();
             throw new UserException(e.getMessage());
         }
@@ -177,5 +220,14 @@ public class UserServiceImpl implements UserService {
         log.info("Click the link to Reset your Password: {}",
                 url);
         return url;
+    }
+
+    private void revokeAllUserTokens(String username){
+        tokenRepository.findTokensByUsernameEquals(username)
+                .forEach(token -> {
+                    token.setRevoked(true);
+                    token.setExpired(true);
+                    tokenRepository.save(token);
+                });
     }
 }
