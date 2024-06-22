@@ -212,6 +212,13 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    public void removeExpiredTokens() {
+        tokenRepository.findTokensByRevokedTrueAndExpiredTrue()
+                .forEach(token -> {
+                    tokenRepository.delete(token);
+                });
+    }
+
     private String passwordResetTokenMail(User user, String applicationUrl, String token) {
         String url =
                 applicationUrl

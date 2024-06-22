@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,9 @@ public class MainController {
     private final MainService mainService;
 
     @PostMapping("/saveCountry")
+    @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<StandardResponse> saveCountry(@RequestBody @Valid CountryDTO country) {
+        System.out.println("Authorities: "+ SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
         log.info("MainController.saveCountry. country");
         mainService.saveCountry(country);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Country saved"), HttpStatus.OK);
@@ -37,6 +41,7 @@ public class MainController {
     }
 
     @PostMapping("/saveDomainMinistry")
+    @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<StandardResponse> saveDomainMinistry(@RequestBody DomainMinistryDTO domainMinistryDTO) {
         log.info("MainController.saveDomainMinistry.called");
         mainService.saveDomainMinistry(domainMinistryDTO);

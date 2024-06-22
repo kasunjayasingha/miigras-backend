@@ -1,10 +1,11 @@
 package com.kasunjay.miigrasbackend.common.util;
 
-import com.kasunjay.miigrasbackend.entity.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public final class AutherizedUserService {
-    public static User getAutherizedUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static UserDetails getAutherizedUser() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

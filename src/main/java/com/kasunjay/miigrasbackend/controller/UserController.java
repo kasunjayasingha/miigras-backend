@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -70,6 +71,17 @@ public class UserController {
         return new ResponseEntity<>(
                 userService.login(authRequestDTO),HttpStatus.OK
         );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<StandardResponse> logout() {
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "User logged out"), HttpStatus.OK);
+    }
+
+    @Scheduled(cron = "0 */10 * * * ?")
+//    @Scheduled(cron = "*/5 * * * * ?")
+    public void cronJobSch() throws Exception {
+        userService.removeExpiredTokens();
     }
 
     private String applicationUrl(HttpServletRequest request) {

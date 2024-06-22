@@ -13,6 +13,7 @@ import java.util.List;
 public class Country extends BaseEntity {
     private String code;
 
+    @Column(unique = true)
     private String name;
 
     @Column(name="ntp_time")

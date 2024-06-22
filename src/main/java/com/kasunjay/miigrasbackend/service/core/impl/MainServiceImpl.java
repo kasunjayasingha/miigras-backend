@@ -3,6 +3,7 @@ package com.kasunjay.miigrasbackend.service.core.impl;
 import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
 import com.kasunjay.miigrasbackend.common.mapper.MainMapper;
 import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
+import com.kasunjay.miigrasbackend.entity.User;
 import com.kasunjay.miigrasbackend.entity.web.Country;
 import com.kasunjay.miigrasbackend.entity.web.DomainMinistry;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
@@ -13,6 +14,7 @@ import com.kasunjay.miigrasbackend.service.core.MainService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class MainServiceImpl implements MainService {
             }
             // Save country
             Country country = mainMapper.countryDTOToCountry(countryDTO);
-            country.setCreatedBy("ADMIN");
+            country.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
             countryRepo.save(country);
             log.info("MainServiceImpl.saveCountry.country saved: {}", country.getName());
         }catch (Exception e){
@@ -67,7 +69,7 @@ public class MainServiceImpl implements MainService {
             }
             // Save domain ministry
             DomainMinistry domainMinistry = mainMapper.domainMinistryDTOToDomainMinistry(domainMinistryDTO);
-            domainMinistry.setCreatedBy("ADMIN");
+            domainMinistry.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
             domainMinistryRepo.save(domainMinistry);
             log.info("MainServiceImpl.saveDomainMinistry.domainMinistry saved: {}", domainMinistry.getName());
         }catch (Exception e){

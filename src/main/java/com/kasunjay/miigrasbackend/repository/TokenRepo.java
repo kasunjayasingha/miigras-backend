@@ -12,4 +12,6 @@ public interface TokenRepo extends JpaRepository<Token,Long> {
     Optional<Token> findTokensByAccessTokenEqualsAndRevokedFalseAndExpiredFalse(String token);
 
     List<Token> findTokensByUsernameEquals(String username);
+
+    List<Token> findTokensByRevokedTrueAndExpiredTrue();
 }

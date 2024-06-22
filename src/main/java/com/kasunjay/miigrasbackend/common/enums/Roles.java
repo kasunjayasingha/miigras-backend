@@ -20,23 +20,16 @@ public enum Roles {
                     WORKER_DELETE
             )
     ),
-    STOCK_MANAGER(
+   ADMIN(
             Set.of(
-                    STOCK_MANAGER_CREATE,
-                    STOCK_MANAGER_DELETE,
-                    STOCK_MANAGER_READ,
-                    STOCK_MANAGER_UPDATE
-            )
-    ), ADMIN(
-            Set.of(
-                    STOCK_MANAGER_CREATE,
-                    STOCK_MANAGER_DELETE,
-                    STOCK_MANAGER_READ,
-                    STOCK_MANAGER_UPDATE,
                     ADMIN_READ,
                     ADMIN_CREATE,
                     ADMIN_DELETE,
-                    ADMIN_UPDATE
+                    ADMIN_UPDATE,
+                    WORKER_READ,
+                    WORKER_CREATE,
+                    WORKER_UPDATE,
+                    WORKER_DELETE
             )
     );
     @Getter

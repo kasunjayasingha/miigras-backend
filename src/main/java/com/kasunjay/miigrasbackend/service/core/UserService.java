@@ -20,4 +20,6 @@ public interface UserService {
     ResponseEntity<StandardResponse> changePassword(PasswordModel passwordModel);
 
     AuthResponseDTO login(AuthRequestDTO authRequestDTO);
+
+    void removeExpiredTokens();
 }
