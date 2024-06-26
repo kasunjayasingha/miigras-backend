@@ -163,24 +163,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public AuthResponseDTO login(AuthRequestDTO authRequestDTO) {
         try{
+            Optional<User> user = Optional.ofNullable(userRepository.findByEmail(authRequestDTO.getUsername()));
+            if (!user.isPresent()) {
+                throw new UserException("User not found");
+            }
+            if (!user.get().isEnabled()) {
+                throw new UserException("User not verified");
+            }
+
             Authentication authenticate = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword())
             );
             if (authenticate.isAuthenticated()) {
-                Optional<User> user = Optional.ofNullable(userRepository.findByEmail(authRequestDTO.getUsername()));
-                if (!user.isPresent()) {
-                    throw new UserException("User not found");
-                }
-                if (!user.get().isEnabled()) {
-                    throw new UserException("User not verified");
-                }
                 revokeAllUserTokens(user.get().getEmail());
                 String access_token = jwtService.generateToken(userDetailsService.loadUserByUsername(user.get().getEmail()));
                 Token token = new Token(access_token,user.get().getEmail());
                 tokenRepository.save(token);
                 return new AuthResponseDTO(
                         user.get().getId(),
-                        user.get().getRole().toString(),
+                        user.get().getRole(),
                         access_token
                 );
             } else {

@@ -1,5 +1,6 @@
 package com.kasunjay.miigrasbackend.model;
 
+import com.kasunjay.miigrasbackend.common.enums.Roles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthResponseDTO {
     private Long id;
-    private String role;
+    private Roles role;
     private String accessToken;
 }

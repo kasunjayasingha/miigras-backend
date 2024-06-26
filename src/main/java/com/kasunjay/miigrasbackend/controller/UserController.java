@@ -75,6 +75,7 @@ public class UserController {
 
     @PostMapping("/logout")
     public ResponseEntity<StandardResponse> logout() {
+        System.out.println("logout called");
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "User logged out"), HttpStatus.OK);
     }
 
