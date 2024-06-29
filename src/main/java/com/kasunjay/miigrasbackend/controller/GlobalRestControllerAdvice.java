@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.controller;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
+import com.kasunjay.miigrasbackend.common.exception.MobileException;
 import com.kasunjay.miigrasbackend.common.exception.UserException;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,9 +30,9 @@ public class GlobalRestControllerAdvice  extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(value = {ExpiredJwtException.class})
-    public ResponseEntity<StandardResponse> expiredJwtException(ExpiredJwtException exception) {
-        log.error("ExpiredJwtException:: " + exception.getMessage());
-        return new ResponseEntity<>(new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(value = {MobileException.class})
+    public ResponseEntity<StandardResponse> mobileException(MobileException exception) {
+        log.error("MobileException:: " + exception.getMessage());
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

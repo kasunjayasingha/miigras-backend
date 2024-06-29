@@ -30,3 +30,8 @@ application:
             secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
 #            expiration: 120000
             expiration: 86400000
+
+#    Emotion prediction model
+    emotion:
+        prediction:
+            url: http://127.0.0.1:8000/send
