@@ -28,8 +28,9 @@ public class Agency extends BaseEntity {
 
     private Boolean status;
 
-    @OneToMany(mappedBy = "agency")
-    private List<Location> locations;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id")
+    private Address addressAgency;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "domain_ministry_id")

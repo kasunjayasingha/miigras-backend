@@ -1,14 +1,17 @@
 package com.kasunjay.miigrasbackend.entity.web;
 
 import com.kasunjay.miigrasbackend.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
 @Data
-public class Address extends BaseEntity {
+public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "house_no")
     private String houseNumber;
@@ -29,5 +32,8 @@ public class Address extends BaseEntity {
 
     @Column(name = "postal_code")
     private String postalCode;
+
+    @OneToOne(mappedBy = "addressAgency")
+    private Agency agency;
 
 }

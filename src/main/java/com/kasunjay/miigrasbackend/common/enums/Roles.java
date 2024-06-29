@@ -31,6 +31,18 @@ public enum Roles {
                     WORKER_UPDATE,
                     WORKER_DELETE
             )
+    ),
+    SUPER_ADMIN(
+            Set.of(
+            ADMIN_READ,
+            ADMIN_CREATE,
+            ADMIN_DELETE,
+            ADMIN_UPDATE,
+            WORKER_READ,
+            WORKER_CREATE,
+            WORKER_UPDATE,
+            WORKER_DELETE
+            )
     );
     @Getter
     private final Set<Permissions> permissions;

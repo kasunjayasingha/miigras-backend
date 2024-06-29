@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 @Slf4j
@@ -77,6 +79,16 @@ public class UserController {
     public ResponseEntity<StandardResponse> logout() {
         System.out.println("logout called");
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "User logged out"), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllUser")
+    public ResponseEntity<List<UserModel>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @PostMapping("/userStatusChange")
+    public ResponseEntity<StandardResponse> userStatusChange(@RequestBody UserModel userModel) {
+        return new ResponseEntity<>(userService.userStatusChange(userModel), HttpStatus.OK);
     }
 
     @Scheduled(cron = "0 */10 * * * ?")

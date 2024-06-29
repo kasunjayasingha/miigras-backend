@@ -4,6 +4,8 @@ import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
 import com.kasunjay.miigrasbackend.common.exception.UserException;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +27,11 @@ public class GlobalRestControllerAdvice  extends ResponseEntityExceptionHandler 
     public ResponseEntity<StandardResponse> mainServiceException(MainServiceException exception) {
         log.error("MainServiceException:: " + exception.getMessage());
         return new ResponseEntity<>(new StandardResponse(HttpStatus.INTERNAL_SERVER_ERROR, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {ExpiredJwtException.class})
+    public ResponseEntity<StandardResponse> expiredJwtException(ExpiredJwtException exception) {
+        log.error("ExpiredJwtException:: " + exception.getMessage());
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, exception.getMessage(),""), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

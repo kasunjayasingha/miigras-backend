@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,18 +48,22 @@ public class UserServiceImpl implements UserService {
     private final JWTService jwtService;
     private final TokenRepo tokenRepository;
     private final UserDetailsService userDetailsService;
+    private final UserRepo userRepo;
 
     @Override
     public User registerUser(UserModel userModel) {
         try {
             log.info("registerUser service method called");
+            if(userRepo.existsByEmail(userModel.getEmail())){
+                throw new UserException("User already exists");
+            }
             User user = userMapper.userModelToUser(userModel);
             user.setRole(userModel.getRole());
-            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            user.setPassword(passwordEncoder.encode(userModel.getFirstName().toLowerCase()+"@123"));
             return userRepository.save(user);
         }catch (Exception e) {
             e.printStackTrace();
-            throw new UserException("User registration failed: " + e.getMessage());
+            throw new UserException(e.getMessage());
         }
     }
 
@@ -218,6 +223,35 @@ public class UserServiceImpl implements UserService {
                 .forEach(token -> {
                     tokenRepository.delete(token);
                 });
+    }
+
+    @Override
+    public List<UserModel> getAllUsers() {
+        log.info("getAllUsers service method called");
+        try{
+            return userMapper.usersToUserModels(userRepository.findAllByRoleIsNot(Roles.SUPER_ADMIN));
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new UserException(e.getMessage());
+        }
+    }
+
+    @Override
+    public StandardResponse userStatusChange(UserModel userModel) {
+        log.info("userStatusChange service method called");
+        try{
+            Optional<User> user = userRepository.findById(userModel.getId());
+            if (!user.isPresent()) {
+                throw new UserException("User not found");
+            }
+            user.get().setEnabled(userModel.isEnabled());
+            userRepository.save(user.get());
+            return new StandardResponse(HttpStatus.OK, Success.SUCCESS, "User status changed");
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new UserException(e.getMessage());
+        }
     }
 
     private String passwordResetTokenMail(User user, String applicationUrl, String token) {

@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.controller.web;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
@@ -40,11 +41,45 @@ public class MainController {
         return new ResponseEntity<>(mainService.getCountryList(), HttpStatus.OK);
     }
 
+    @GetMapping("/checkCountryIsPresent")
+    public ResponseEntity<StandardResponse> getCountryByCode(@RequestParam String code, @RequestParam String name) {
+        log.info("MainController.getCountryByCode.code:" + code);
+        return new ResponseEntity<>(mainService.checkCountryIsPresent(name, code), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteCountry")
+    @PreAuthorize("hasAuthority('admin:delete')")
+    public ResponseEntity<StandardResponse> deleteCountry(@RequestParam Long id) {
+        log.info("MainController.deleteCountry.id:" + id);
+        mainService.deleteCountry(id);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Country deleted"), HttpStatus.OK);
+    }
+
     @PostMapping("/saveDomainMinistry")
     @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<StandardResponse> saveDomainMinistry(@RequestBody DomainMinistryDTO domainMinistryDTO) {
         log.info("MainController.saveDomainMinistry.called");
         mainService.saveDomainMinistry(domainMinistryDTO);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Domain Ministry saved"), HttpStatus.OK);
+    }
+
+    @GetMapping("/getDomainMinistryList")
+    public ResponseEntity<List<DomainMinistryDTO>> getDomainMinistryList() {
+        log.info("MainController.getDomainMinistryList.called");
+        return new ResponseEntity<>(mainService.getDomainMinistryList(), HttpStatus.OK);
+    }
+
+    @PostMapping("/saveAgency")
+    @PreAuthorize("hasAuthority('admin:create')")
+    public ResponseEntity<StandardResponse> saveAgency(@RequestBody AgencyDTO agencyDTO) {
+        log.info("MainController.saveAgency.called");
+        mainService.saveAgency(agencyDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Agency saved"), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAgencyList")
+    public ResponseEntity<List<AgencyDTO>> getAgencyList() {
+        log.info("MainController.getAgencyList.called");
+        return new ResponseEntity<>(mainService.getAgencyList(), HttpStatus.OK);
     }
 }

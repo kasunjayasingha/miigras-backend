@@ -1,6 +1,8 @@
 package com.kasunjay.miigrasbackend.service.core;
 
 import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
 
@@ -12,4 +14,14 @@ public interface MainService {
     List<Country> getCountryList();
 
     void saveDomainMinistry(DomainMinistryDTO domainMinistryDTO);
+
+    StandardResponse checkCountryIsPresent(String name, String code);
+
+    void deleteCountry(Long id);
+
+    List<DomainMinistryDTO> getDomainMinistryList();
+
+    void saveAgency(AgencyDTO agencyDTO);
+
+    List<AgencyDTO> getAgencyList();
 }

@@ -46,6 +46,7 @@ public class User implements UserDetails {
     @NotNull(message = "Role is required")
     @Enumerated(EnumType.STRING)
     private Roles role;
+
     private boolean enabled = false;
 
     @Override

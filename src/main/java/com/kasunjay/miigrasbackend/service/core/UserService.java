@@ -4,6 +4,8 @@ import com.kasunjay.miigrasbackend.entity.User;
 import com.kasunjay.miigrasbackend.model.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface UserService {
     User registerUser(UserModel userModel);
 
@@ -22,4 +24,8 @@ public interface UserService {
     AuthResponseDTO login(AuthRequestDTO authRequestDTO);
 
     void removeExpiredTokens();
+
+    List<UserModel> getAllUsers();
+
+    StandardResponse userStatusChange(UserModel userModel);
 }

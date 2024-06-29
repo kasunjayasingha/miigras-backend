@@ -5,10 +5,12 @@ import lombok.Data;
 
 @Data
 public class UserModel {
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String matchingPassword;
     private Roles role;
+    private boolean enabled;
 }
