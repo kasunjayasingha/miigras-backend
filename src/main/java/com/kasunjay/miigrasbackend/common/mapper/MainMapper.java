@@ -1,13 +1,7 @@
 package com.kasunjay.miigrasbackend.common.mapper;
 
-import com.kasunjay.miigrasbackend.entity.web.Address;
-import com.kasunjay.miigrasbackend.entity.web.Agency;
-import com.kasunjay.miigrasbackend.entity.web.Country;
-import com.kasunjay.miigrasbackend.entity.web.DomainMinistry;
-import com.kasunjay.miigrasbackend.model.web.AddressDTO;
-import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
-import com.kasunjay.miigrasbackend.model.web.CountryDTO;
-import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
+import com.kasunjay.miigrasbackend.entity.web.*;
+import com.kasunjay.miigrasbackend.model.web.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -35,4 +29,16 @@ public interface MainMapper {
     Agency agencyDTOToAgency(AgencyDTO agencyDTO);
 
     List<AgencyDTO> mapToAgencyDTOList(List<Agency> agencies);
+
+    @Mapping(target = "address", ignore = true)
+    Person personDTOToPerson(PersonDTO personDTO);
+
+    @Mapping(target = "person", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "gradient", ignore = true)
+    @Mapping(target = "agency.id", source = "agency.id")
+    Employee employeeDTOToEmployee(EmployeeDTO employeeDTO);
+
+    @Mapping(target = "person", ignore = true)
+    Gradient gradientDTOToGradient(GradientDTO gradientDTO);
 }

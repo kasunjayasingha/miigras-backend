@@ -5,6 +5,7 @@ import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
+import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface MainService {
     void saveAgency(AgencyDTO agencyDTO);
 
     List<AgencyDTO> getAgencyList();
+
+    void saveEmployee(EmployeeDTO employeeDTO);
 }

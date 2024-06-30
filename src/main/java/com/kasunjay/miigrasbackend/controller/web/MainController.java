@@ -6,6 +6,7 @@ import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
 import com.kasunjay.miigrasbackend.service.core.MainService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,5 +82,13 @@ public class MainController {
     public ResponseEntity<List<AgencyDTO>> getAgencyList() {
         log.info("MainController.getAgencyList.called");
         return new ResponseEntity<>(mainService.getAgencyList(), HttpStatus.OK);
+    }
+
+    @PostMapping("/saveEmployee")
+    @PreAuthorize("hasAuthority('admin:create')")
+    public ResponseEntity<StandardResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("MainController.saveEmployee.called");
+        mainService.saveEmployee(employeeDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Employee saved"), HttpStatus.OK);
     }
 }

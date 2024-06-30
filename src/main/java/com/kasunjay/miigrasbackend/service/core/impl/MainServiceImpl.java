@@ -5,20 +5,12 @@ import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
 import com.kasunjay.miigrasbackend.common.mapper.MainMapper;
 import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.User;
-import com.kasunjay.miigrasbackend.entity.web.Address;
-import com.kasunjay.miigrasbackend.entity.web.Agency;
-import com.kasunjay.miigrasbackend.entity.web.Country;
-import com.kasunjay.miigrasbackend.entity.web.DomainMinistry;
+import com.kasunjay.miigrasbackend.entity.web.*;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
-import com.kasunjay.miigrasbackend.model.web.AddressDTO;
-import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
-import com.kasunjay.miigrasbackend.model.web.CountryDTO;
-import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
-import com.kasunjay.miigrasbackend.repository.AddressRepo;
-import com.kasunjay.miigrasbackend.repository.AgencyRepo;
-import com.kasunjay.miigrasbackend.repository.CountryRepo;
-import com.kasunjay.miigrasbackend.repository.DomainMinistryRepo;
+import com.kasunjay.miigrasbackend.model.web.*;
+import com.kasunjay.miigrasbackend.repository.*;
 import com.kasunjay.miigrasbackend.service.core.MainService;
+import com.kasunjay.miigrasbackend.service.core.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +31,10 @@ public class MainServiceImpl implements MainService {
     private final MainMapper mainMapper;
     private final AddressRepo addressRepo;
     private final AgencyRepo agencyRepo;
+    private final GradientRepo gradientRepo;
+    private final EmployeeRepo employeeRepo;
+    private final PersonRepo personRepo;
+    private final UserService userService;
 
     @Override
     public void saveCountry(CountryDTO countryDTO) {
@@ -145,6 +141,69 @@ public class MainServiceImpl implements MainService {
             e.printStackTrace();
             throw new MainServiceException(e.getMessage());
         }
+    }
+
+    @Override
+    public void saveEmployee(EmployeeDTO employeeDTO) {
+        log.info("MainServiceImpl.saveEmployee.called");
+        try {
+            if(employeeDTO.getPerson() == null || employeeDTO.getUser() == null ||
+                    employeeDTO.getAgency() == null || employeeDTO.getGradient() == null){
+                log.error("MainServiceImpl.saveEmployee.employeeDTO is null");
+                throw new MainServiceException("EmployeeDTO is null");
+            }
+            Gradient gradient = saveGradient(employeeDTO.getGradient());
+            Person person = null;
+            if(employeeDTO.getGradient().getSameAsEmployeeAddress()){
+                person = savePersonIfSameAddress(employeeDTO.getPerson(), gradient.getPerson().getAddress());
+            }else {
+                person = savePerson(employeeDTO.getPerson());
+            }
+            Employee employee = mainMapper.employeeDTOToEmployee(employeeDTO);
+            employee.setPerson(person);
+            employee.setGradient(gradient);
+            User user = userService.registerUser(employeeDTO.getUser());
+            user.setEnabled(true);
+            employee.setUser(user);
+            employee.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+            employeeRepo.save(employee);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new MainServiceException(e.getMessage());
+        }
+    }
+
+    private Gradient saveGradient(GradientDTO gradientDTO){
+        if (gradientDTO == null || gradientDTO.getPerson() == null){
+            log.error("MainServiceImpl.saveGradient.gradientDTO is null");
+            throw new MainServiceException("GradientDTO is null");
+        }
+        Gradient gradient = mainMapper.gradientDTOToGradient(gradientDTO);
+        gradient.setPerson(savePerson(gradientDTO.getPerson()));
+        gradient.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+        return gradientRepo.save(gradient);
+    }
+
+    private Person savePersonIfSameAddress(PersonDTO personDTO, Address address){
+        if (personDTO == null){
+            log.error("MainServiceImpl.savePersonIfSameAddress.personDTO is null");
+            throw new MainServiceException("PersonDTO is null");
+        }
+        Person person = mainMapper.personDTOToPerson(personDTO);
+        person.setAddress(address);
+        person.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+        return personRepo.save(person);
+    }
+
+    private Person savePerson(PersonDTO personDTO){
+        if (personDTO == null){
+            log.error("MainServiceImpl.savePerson.personDTO is null");
+            throw new MainServiceException("PersonDTO is null");
+        }
+        Person person = mainMapper.personDTOToPerson(personDTO);
+        person.setAddress(saveAddress(personDTO.getAddress()));
+        person.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+        return personRepo.save(person);
     }
 
     private Address saveAddress(AddressDTO addressDTO){

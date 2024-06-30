@@ -12,7 +12,7 @@ public class Employee extends BaseEntity {
     @Column(name="emp_id")
     private String empId;
 
-    private Boolean status;
+    private Boolean status = true;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
@@ -25,4 +25,8 @@ public class Employee extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "agency_id")
     private Agency agency;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "gradient_id")
+    private Gradient gradient;
 }
