@@ -173,6 +173,22 @@ public class MainServiceImpl implements MainService {
         }
     }
 
+    @Override
+    public List<EmployeeDTO> getEmployeeList() {
+        log.info("MainServiceImpl.getEmployeeList.called");
+        try {
+            return mainMapper.mapToEmployeeDTOList(employeeRepo.findAll());
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new MainServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public String generateEmployeId() {
+        return "EMP" + System.currentTimeMillis();
+    }
+
     private Gradient saveGradient(GradientDTO gradientDTO){
         if (gradientDTO == null || gradientDTO.getPerson() == null){
             log.error("MainServiceImpl.saveGradient.gradientDTO is null");

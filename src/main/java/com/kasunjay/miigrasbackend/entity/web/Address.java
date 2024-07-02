@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Address {
@@ -35,5 +37,8 @@ public class Address {
 
     @OneToOne(mappedBy = "addressAgency")
     private Agency agency;
+
+    @OneToMany(mappedBy = "address")
+    private List<Person> persons;
 
 }

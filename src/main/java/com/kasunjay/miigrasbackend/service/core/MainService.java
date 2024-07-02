@@ -27,4 +27,8 @@ public interface MainService {
     List<AgencyDTO> getAgencyList();
 
     void saveEmployee(EmployeeDTO employeeDTO);
+
+    List<EmployeeDTO> getEmployeeList();
+
+    String generateEmployeId();
 }

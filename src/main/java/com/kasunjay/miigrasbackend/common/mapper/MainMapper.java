@@ -2,10 +2,7 @@ package com.kasunjay.miigrasbackend.common.mapper;
 
 import com.kasunjay.miigrasbackend.entity.web.*;
 import com.kasunjay.miigrasbackend.model.web.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -41,4 +38,11 @@ public interface MainMapper {
 
     @Mapping(target = "person", ignore = true)
     Gradient gradientDTOToGradient(GradientDTO gradientDTO);
+
+    @Named("employeeToEmployeeDTO")
+    @Mapping(target = "user", ignore = true)
+    EmployeeDTO employeeToEmployeeDTO(Employee employee);
+
+    @IterableMapping(qualifiedByName = "employeeToEmployeeDTO")
+    List<EmployeeDTO> mapToEmployeeDTOList(List<Employee> employees);
 }

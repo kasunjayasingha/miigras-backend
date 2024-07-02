@@ -91,4 +91,16 @@ public class MainController {
         mainService.saveEmployee(employeeDTO);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Employee saved"), HttpStatus.OK);
     }
+
+    @GetMapping("/getEmployeeList")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeeList() {
+        log.info("MainController.getEmployeeList.called");
+        return new ResponseEntity<>(mainService.getEmployeeList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/generateEmployeId")
+    public ResponseEntity<String> generateEmployeId() {
+        log.info("MainController.generateEmployeId.called");
+        return new ResponseEntity<>(mainService.generateEmployeId(), HttpStatus.OK);
+    }
 }
