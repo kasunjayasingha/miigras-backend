@@ -1,12 +1,14 @@
 package com.kasunjay.miigrasbackend.controller;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
+import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.User;
 import com.kasunjay.miigrasbackend.event.RegistrationCompleteEvent;
 import com.kasunjay.miigrasbackend.model.AuthRequestDTO;
 import com.kasunjay.miigrasbackend.model.PasswordModel;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.UserModel;
+import com.kasunjay.miigrasbackend.service.JWTService;
 import com.kasunjay.miigrasbackend.service.core.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class UserController {
     private final UserService userService;
 
     private final ApplicationEventPublisher publisher;
+
+    private final JWTService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<StandardResponse> registerUser(@RequestBody UserModel userModel, final HttpServletRequest request) {
@@ -95,6 +99,11 @@ public class UserController {
 //    @Scheduled(cron = "*/5 * * * * ?")
     public void cronJobSch() throws Exception {
         userService.removeExpiredTokens();
+    }
+
+    @PostMapping("/isValidToken")
+    public ResponseEntity<StandardResponse> isValidToken(@RequestHeader("Access-Token") String jwtToken){
+        return new ResponseEntity<>(userService.isValidToken(jwtToken),HttpStatus.OK);
     }
 
     private String applicationUrl(HttpServletRequest request) {

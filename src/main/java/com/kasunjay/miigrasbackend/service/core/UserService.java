@@ -28,4 +28,6 @@ public interface UserService {
     List<UserModel> getAllUsers();
 
     StandardResponse userStatusChange(UserModel userModel);
+
+    StandardResponse isValidToken(String jwtToken);
 }
