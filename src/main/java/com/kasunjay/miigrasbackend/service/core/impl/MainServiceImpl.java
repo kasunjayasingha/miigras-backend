@@ -185,8 +185,8 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public String generateEmployeId() {
-        return "EMP" + System.currentTimeMillis();
+    public StandardResponse generateEmployeeId() {
+        return new StandardResponse(HttpStatus.OK, Success.SUCCESS, "EMP" + System.currentTimeMillis());
     }
 
     private Gradient saveGradient(GradientDTO gradientDTO){

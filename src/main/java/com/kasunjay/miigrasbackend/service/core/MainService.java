@@ -30,5 +30,5 @@ public interface MainService {
 
     List<EmployeeDTO> getEmployeeList();
 
-    String generateEmployeId();
+    StandardResponse generateEmployeeId();
 }

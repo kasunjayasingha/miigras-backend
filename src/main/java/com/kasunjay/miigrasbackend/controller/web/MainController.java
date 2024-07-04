@@ -98,9 +98,9 @@ public class MainController {
         return new ResponseEntity<>(mainService.getEmployeeList(), HttpStatus.OK);
     }
 
-    @GetMapping("/generateEmployeId")
-    public ResponseEntity<String> generateEmployeId() {
-        log.info("MainController.generateEmployeId.called");
-        return new ResponseEntity<>(mainService.generateEmployeId(), HttpStatus.OK);
+    @GetMapping("/generateEmployeeId")
+    public ResponseEntity<StandardResponse> generateEmployeeId() {
+        log.info("MainController.generateEmployeeId.called");
+        return new ResponseEntity<>(mainService.generateEmployeeId(), HttpStatus.OK);
     }
 }

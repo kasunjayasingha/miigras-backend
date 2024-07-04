@@ -30,8 +30,6 @@ public class Person extends BaseEntity {
     @Column(name = "mobile_2")
     private String mobile2;
 
-    @NotNull(message = "Passport is mandatory")
-    @Column(nullable = false)
     private String passport;
 
     private String dob;
