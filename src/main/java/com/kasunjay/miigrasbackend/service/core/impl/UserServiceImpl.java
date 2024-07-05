@@ -258,12 +258,12 @@ public class UserServiceImpl implements UserService {
     public StandardResponse isValidToken(String jwtToken) {
         log.info("isValidToken service method called");
         System.out.println("jwtToken:::::::::: "+jwtToken);
-        if(!jwtService.isValidToken(jwtToken, AutherizedUserService.getAutherizedUser())){
-            final String jwt;
-            if(jwtToken != null && !jwtToken.startsWith("Bearer ")){
-                return new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, "Invalid Token");
-            }
-            jwt = jwtToken.substring(7);
+        final String jwt;
+        if(jwtToken != null && !jwtToken.startsWith("Bearer ")){
+            return new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, "Invalid Token");
+        }
+        jwt = jwtToken.substring(7);
+        if(!jwtService.isValidToken(jwt, AutherizedUserService.getAutherizedUser())){
             System.out.println(jwt);
             Optional<Token> token = tokenRepository.findTokensByAccessToken(jwt);
             if(token.isPresent()){
