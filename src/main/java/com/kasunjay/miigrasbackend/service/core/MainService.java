@@ -31,4 +31,6 @@ public interface MainService {
     List<EmployeeDTO> getEmployeeList();
 
     StandardResponse generateEmployeeId();
+
+    void updateEmployee(EmployeeDTO employeeDTO);
 }

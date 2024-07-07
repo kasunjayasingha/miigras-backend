@@ -1,5 +1,6 @@
 package com.kasunjay.miigrasbackend.entity.web;
 
+import com.kasunjay.miigrasbackend.common.enums.JobTypes;
 import com.kasunjay.miigrasbackend.entity.BaseEntity;
 import com.kasunjay.miigrasbackend.entity.User;
 import jakarta.persistence.*;
@@ -25,6 +26,10 @@ public class Employee extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "agency_id")
     private Agency agency;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "job_type")
+    private JobTypes jobType;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "gradient_id")

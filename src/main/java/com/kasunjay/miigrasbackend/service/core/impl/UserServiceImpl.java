@@ -257,7 +257,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public StandardResponse isValidToken(String jwtToken) {
         log.info("isValidToken service method called");
-        System.out.println("jwtToken:::::::::: "+jwtToken);
         final String jwt;
         if(jwtToken != null && !jwtToken.startsWith("Bearer ")){
             return new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, "Invalid Token");

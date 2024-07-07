@@ -5,7 +5,6 @@ public enum JobTypes {
     DRIVER,
     HELPER,
     HOUSE_WIFE,
-    PARENT,
-    FAMILY_MEMBER,
-    CHILD,
+    CLEANER,
+    SECURITY
 }

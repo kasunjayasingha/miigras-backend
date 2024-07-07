@@ -189,6 +189,36 @@ public class MainServiceImpl implements MainService {
         return new StandardResponse(HttpStatus.OK, Success.SUCCESS, "EMP" + System.currentTimeMillis());
     }
 
+    @Override
+    public void updateEmployee(EmployeeDTO employeeDTO) {
+        log.info("MainServiceImpl.updateEmployee.called");
+        try {
+            if(employeeDTO.getId() ==0){
+                log.error("MainServiceImpl.updateEmployee.employeeDTO is null");
+                throw new MainServiceException("EmployeeDTO is null");
+            }
+            Employee employee = employeeRepo.findById(employeeDTO.getId()).orElse(null);
+            if(employee == null){
+                log.error("MainServiceImpl.updateEmployee.employee is null");
+                throw new MainServiceException("Employee is null");
+            }
+            Gradient gradient = saveGradient(employeeDTO.getGradient());
+            Person person = null;
+            if(employeeDTO.getGradient().getSameAsEmployeeAddress()){
+                person = savePersonIfSameAddress(employeeDTO.getPerson(), gradient.getPerson().getAddress());
+            }else {
+                person = savePerson(employeeDTO.getPerson());
+            }
+            employee.setPerson(person);
+            employee.setGradient(gradient);
+            employee.setUpdatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+            employeeRepo.save(employee);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new MainServiceException(e.getMessage());
+        }
+    }
+
     private Gradient saveGradient(GradientDTO gradientDTO){
         if (gradientDTO == null || gradientDTO.getPerson() == null){
             log.error("MainServiceImpl.saveGradient.gradientDTO is null");

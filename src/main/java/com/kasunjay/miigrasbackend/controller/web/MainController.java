@@ -103,4 +103,12 @@ public class MainController {
         log.info("MainController.generateEmployeeId.called");
         return new ResponseEntity<>(mainService.generateEmployeeId(), HttpStatus.OK);
     }
+
+    @PostMapping("/updateEmployee")
+    @PreAuthorize("hasAuthority('admin:update')")
+    public ResponseEntity<StandardResponse> updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("MainController.updateEmployee.called");
+        mainService.updateEmployee(employeeDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Employee updated"), HttpStatus.OK);
+    }
 }

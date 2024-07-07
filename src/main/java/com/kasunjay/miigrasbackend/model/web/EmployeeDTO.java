@@ -1,5 +1,6 @@
 package com.kasunjay.miigrasbackend.model.web;
 
+import com.kasunjay.miigrasbackend.common.enums.JobTypes;
 import com.kasunjay.miigrasbackend.model.UserModel;
 import lombok.Data;
 
@@ -11,4 +12,5 @@ public class EmployeeDTO {
     private UserModel user;
     private AgencyDTO agency;
     private GradientDTO gradient;
+    private JobTypes jobType;
 }
