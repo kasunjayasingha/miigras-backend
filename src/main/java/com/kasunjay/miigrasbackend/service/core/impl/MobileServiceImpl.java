@@ -1,8 +1,10 @@
 package com.kasunjay.miigrasbackend.service.core.impl;
 
 import com.kasunjay.miigrasbackend.common.enums.Emotion;
+import com.kasunjay.miigrasbackend.common.enums.Level;
 import com.kasunjay.miigrasbackend.common.exception.MobileException;
 import com.kasunjay.miigrasbackend.common.exception.UserException;
+import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.mobile.Prediction;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.repository.EmployeeRepo;
@@ -53,9 +55,20 @@ public class MobileServiceImpl implements MobileService {
                 prediction.setEmployee(employeeRepo.findById(predictionModel.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found")));
                 prediction.setMessage(predictionModel.getMessage());
                 prediction.setScore(calculateEmotionScore(new JSONObject(response.getBody())));
+
+                if(prediction.getScore() < 5){
+                    prediction.setSeverity(Level.LOW);
+                }else if(prediction.getScore() >= 5 && prediction.getScore() < 9){
+                    prediction.setSeverity(Level.MEDIUM);
+                }else{
+                    prediction.setSeverity(Level.HIGH);
+                }
+
                 HashMap<Emotion, Double> highEmotionScores = getHighEmotionScores(new JSONObject(response.getBody()));
-                prediction.setEmotion(Emotion.valueOf(highEmotionScores.keySet().toArray()[0].toString()));
+
+                prediction.setEmotion((Emotion) highEmotionScores.keySet().toArray()[0]);
                 prediction.setEmotionScore(highEmotionScores.get(Emotion.valueOf(highEmotionScores.keySet().toArray()[0].toString())));
+                prediction.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
                 predictionRepo.save(prediction);
             } else {
                 log.warn("Request failed with status: " + response.getStatusCode());
@@ -127,17 +140,17 @@ public class MobileServiceImpl implements MobileService {
             }
 
             switch (previousLabel) {
-                case "anger":
-                    highEmotionScores.put(Emotion.ANGRY, previousScore);
-                    break;
-                case "disgust":
-                    highEmotionScores.put(Emotion.DISGUST, previousScore);
-                    break;
-                case "fear":
+                case "fear", "anger", "disgust":
                     highEmotionScores.put(Emotion.FEAR, previousScore);
                     break;
                 case "sadness":
                     highEmotionScores.put(Emotion.SAD, previousScore);
+                    break;
+                case "joy", "surprise":
+                    highEmotionScores.put(Emotion.HAPPY, previousScore);
+                    break;
+                case "neutral":
+                    highEmotionScores.put(Emotion.NEUTRAL, previousScore);
                     break;
             }
             return highEmotionScores;

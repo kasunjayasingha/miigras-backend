@@ -14,11 +14,13 @@ import lombok.EqualsAndHashCode;
 public class Prediction extends BaseEntity {
     private double score;
 
+    @Enumerated(EnumType.STRING)
     private Level severity;
 
     @Column(unique = true, nullable = false,length = 1000)
     private String message;
 
+    @Enumerated(EnumType.STRING)
     private Emotion emotion;
 
     @Column(name = "emotion_score")
