@@ -165,6 +165,7 @@ public class MainServiceImpl implements MainService {
             User user = userService.registerUser(employeeDTO.getUser());
             user.setEnabled(true);
             employee.setUser(user);
+            employee.setJobType(employeeDTO.getJobType());
             employee.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
             employeeRepo.save(employee);
         }catch (Exception e){
