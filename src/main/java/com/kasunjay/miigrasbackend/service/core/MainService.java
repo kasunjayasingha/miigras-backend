@@ -33,4 +33,6 @@ public interface MainService {
     StandardResponse generateEmployeeId();
 
     void updateEmployee(EmployeeDTO employeeDTO);
+
+    EmployeeDTO getEmployeeByUserId(Long userId);
 }
