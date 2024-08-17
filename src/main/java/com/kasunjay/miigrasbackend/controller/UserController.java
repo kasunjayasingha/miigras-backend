@@ -95,12 +95,6 @@ public class UserController {
         return new ResponseEntity<>(userService.userStatusChange(userModel), HttpStatus.OK);
     }
 
-    @Scheduled(cron = "0 */10 * * * ?")
-//    @Scheduled(cron = "*/5 * * * * ?")
-    public void cronJobSch() throws Exception {
-        userService.removeExpiredTokens();
-    }
-
     @PostMapping("/isValidToken")
     public ResponseEntity<StandardResponse> isValidToken(@RequestHeader("Access-Token") String jwtToken){
         return new ResponseEntity<>(userService.isValidToken(jwtToken),HttpStatus.OK);

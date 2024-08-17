@@ -5,9 +5,13 @@ import com.kasunjay.miigrasbackend.common.enums.Level;
 import com.kasunjay.miigrasbackend.common.exception.MobileException;
 import com.kasunjay.miigrasbackend.common.exception.UserException;
 import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
+import com.kasunjay.miigrasbackend.entity.mobile.EmployeeTracking;
 import com.kasunjay.miigrasbackend.entity.mobile.Prediction;
+import com.kasunjay.miigrasbackend.entity.web.Employee;
+import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.repository.EmployeeRepo;
+import com.kasunjay.miigrasbackend.repository.EmployeeTrackingRepo;
 import com.kasunjay.miigrasbackend.repository.PredictionRepo;
 import com.kasunjay.miigrasbackend.service.core.MobileService;
 import jakarta.transaction.Transactional;
@@ -16,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,7 +29,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,6 +45,8 @@ public class MobileServiceImpl implements MobileService {
     private final EmployeeRepo employeeRepo;
 
     private final PredictionRepo predictionRepo;
+
+    private final EmployeeTrackingRepo employeeTrackingRepo;
 
     @Override
     public void predict(PredictionModel predictionModel) {
@@ -77,6 +87,44 @@ public class MobileServiceImpl implements MobileService {
 
         } catch (Exception e) {
             log.error("Error during prediction", e);
+            throw new MobileException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateLocation(LocationRequestDTO locationRequestDTO) {
+        try{
+            log.info("MobileServiceImpl.updateLocation. employeeId: " + locationRequestDTO.getEmployeeId());
+            Employee employee = employeeRepo.findById(locationRequestDTO.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found"));
+            // update location
+            EmployeeTracking employeeTracking = new EmployeeTracking();
+            employeeTracking.setEmployee(employee);
+            employeeTracking.setLatitude(locationRequestDTO.getLatitude());
+            employeeTracking.setLongitude(locationRequestDTO.getLongitude());
+            employeeTracking.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+            employeeTrackingRepo.save(employeeTracking);
+            // code to update location
+            log.info("Location updated");
+
+        }catch (Exception e){
+            log.error("Error during location update", e);
+            throw new MobileException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void removeEveryLocationData() {
+        try {
+            log.info("MobileServiceImpl.removeEveryLocationData");
+            Pageable pageable = PageRequest.of(0, 1); // Page 0, size 1
+            List<EmployeeTracking> result = employeeTrackingRepo.findAllOrderByCreatedDateAsc(pageable);
+
+            LocalDateTime createdDate = result.get(0).getCreatedDate();
+
+            employeeTrackingRepo.deleteAllByCreatedDateBetween(createdDate.minusDays(1), createdDate.plusMonths(2));
+            log.info("Location data removed");
+        }catch (Exception e){
+            log.error("Error during location data removal", e);
             throw new MobileException(e.getMessage());
         }
     }

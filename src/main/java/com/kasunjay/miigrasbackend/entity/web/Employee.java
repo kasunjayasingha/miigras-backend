@@ -3,6 +3,7 @@ package com.kasunjay.miigrasbackend.entity.web;
 import com.kasunjay.miigrasbackend.common.enums.JobTypes;
 import com.kasunjay.miigrasbackend.entity.BaseEntity;
 import com.kasunjay.miigrasbackend.entity.User;
+import com.kasunjay.miigrasbackend.entity.mobile.EmployeeTracking;
 import com.kasunjay.miigrasbackend.entity.mobile.Prediction;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -40,4 +41,7 @@ public class Employee extends BaseEntity {
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Prediction> predictions;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<EmployeeTracking> employeeTrackings;
 }

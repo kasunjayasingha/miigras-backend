@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.controller.mobile;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
 import com.kasunjay.miigrasbackend.service.core.MainService;
@@ -35,6 +36,14 @@ public class MobileController {
     public ResponseEntity<EmployeeDTO> getEmployeeByUserId(@RequestParam Long userId) {
         log.info("MobileController.getEmployeeByUserId. userId: " + userId);
         return new ResponseEntity<>(mainService.getEmployeeByUserId(userId), HttpStatus.OK);
+    }
+
+    @PostMapping("/updateLocation")
+    @PreAuthorize("hasAuthority('worker:update')")
+    public ResponseEntity<StandardResponse> updateLocation(@RequestBody LocationRequestDTO locationRequestDTO) {
+        log.info("MobileController.updateLocation. employeeId: " + locationRequestDTO.getEmployeeId());
+        mobileService.updateLocation(locationRequestDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Location updated"), HttpStatus.OK);
     }
 
 
