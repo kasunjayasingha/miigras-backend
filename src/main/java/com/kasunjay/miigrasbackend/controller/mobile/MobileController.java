@@ -1,7 +1,9 @@
 package com.kasunjay.miigrasbackend.controller.mobile;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
+import com.kasunjay.miigrasbackend.model.CommonSearchDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.mobile.ChatContactDTO;
 import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/mobile")
@@ -44,6 +48,13 @@ public class MobileController {
         log.info("MobileController.updateLocation. employeeId: " + locationRequestDTO.getEmployeeId());
         mobileService.updateLocation(locationRequestDTO);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Location updated"), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-nearby-employees")
+    @PreAuthorize("hasAuthority('worker:read')")
+    public ResponseEntity<List<ChatContactDTO>> findNearbyEmployees(@RequestBody CommonSearchDTO commonSearchDTO) {
+        log.info("MobileController.findNearbyEmployees. employeeId: " + commonSearchDTO.getId());
+        return new ResponseEntity<>(mobileService.findNearbyEmployees(commonSearchDTO), HttpStatus.OK);
     }
 
 

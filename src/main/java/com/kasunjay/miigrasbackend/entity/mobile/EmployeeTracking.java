@@ -19,4 +19,7 @@ public class EmployeeTracking extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @Column(name = "is_available", nullable = false)
+    private Boolean isAvailable;
 }

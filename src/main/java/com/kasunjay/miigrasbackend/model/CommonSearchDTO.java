@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class CommonSearchDTO {
     private long id;
+    private double radius;
 }
