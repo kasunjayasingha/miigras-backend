@@ -3,6 +3,7 @@ package com.kasunjay.miigrasbackend.controller.web;
 
 import com.kasunjay.miigrasbackend.entity.web.Country;
 import com.kasunjay.miigrasbackend.model.web.DashboardDTO;
+import com.kasunjay.miigrasbackend.model.web.IncidentDTO;
 import com.kasunjay.miigrasbackend.service.core.DashboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,11 @@ public class DashboardController {
     public ResponseEntity<DashboardDTO> getCountryList() {
         log.info("DashboardController.getTilesValues");
         return new ResponseEntity<>(dashboardService.getTilesValues(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getIncidents")
+    public ResponseEntity<List<IncidentDTO>> getIncidents() {
+        log.info("DashboardController.getIncidents");
+        return new ResponseEntity<>(dashboardService.getIncidents(), HttpStatus.OK);
     }
 }

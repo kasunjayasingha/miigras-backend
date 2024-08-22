@@ -26,6 +26,9 @@ public class Prediction extends BaseEntity {
     @Column(name = "emotion_score")
     private double emotionScore;
 
+    @Column(name = "is_check")
+    private Boolean isCheck = false;
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private Employee employee;

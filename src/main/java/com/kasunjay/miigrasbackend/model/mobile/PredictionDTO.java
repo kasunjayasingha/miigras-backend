@@ -13,5 +13,6 @@ public class PredictionDTO {
     private String message;
     private Emotion emotion;
     private double emotionScore;
+    private Boolean isCheck;
     private EmployeeDTO employee;
 }
