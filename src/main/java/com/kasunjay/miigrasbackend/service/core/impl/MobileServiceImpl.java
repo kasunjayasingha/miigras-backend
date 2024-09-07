@@ -141,11 +141,14 @@ public class MobileServiceImpl implements MobileService {
     @Override
     public List<ChatContactDTO> findNearbyEmployees(CommonSearchDTO commonSearchDTO) {
         try {
-            log.info("MobileServiceImpl.findNearbyEmployees. employeeId: " + commonSearchDTO.getId());
+            log.info("MobileServiceImpl.findNearbyEmployees. employeeId: " + commonSearchDTO.getRadius());
             Employee employee = employeeRepo.findById(commonSearchDTO.getId()).orElseThrow(() -> new UserException("Employee not found"));
             Optional<EmployeeTracking> employeeTracking = employeeTrackingRepo.findByEmployeeAndIsAvailable(employee, true);
             if (employeeTracking.isEmpty()) {
                 throw new MobileException("Location data not found");
+            }
+            if(commonSearchDTO.getRadius() == 0 || commonSearchDTO.getRadius() < 0){
+                throw new MobileException("Invalid radius");
             }
             List<EmployeeTracking> nearbyEmployees = employeeTrackingRepo.findEmployeesWithinRadius(employeeTracking.get().getLatitude(),
                     employeeTracking.get().getLongitude(), commonSearchDTO.getRadius(), true);
@@ -163,6 +166,7 @@ public class MobileServiceImpl implements MobileService {
             for (EmployeeTracking nearbyEmployee : nearbyEmployees) {
                 ChatContactDTO chatContactDTO = new ChatContactDTO();
                 chatContactDTO.setEmployeeId(nearbyEmployee.getEmployee().getId());
+                chatContactDTO.setUserId(nearbyEmployee.getEmployee().getUser().getId());
                 chatContactDTO.setName(nearbyEmployee.getEmployee().getPerson().getFirstName() + " " + nearbyEmployee.getEmployee().getPerson().getLastName());
                 chatContactDTO.setEmail(nearbyEmployee.getEmployee().getPerson().getEmail());
                 chatContactDTO.setPhone(nearbyEmployee.getEmployee().getPerson().getMobile1());

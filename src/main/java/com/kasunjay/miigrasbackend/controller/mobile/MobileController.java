@@ -4,6 +4,7 @@ import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.model.CommonSearchDTO;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.mobile.ChatContactDTO;
+import com.kasunjay.miigrasbackend.model.mobile.ChatContactResponseDTO;
 import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
@@ -50,11 +51,13 @@ public class MobileController {
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Location updated"), HttpStatus.OK);
     }
 
-    @GetMapping("/find-nearby-employees")
+    @PostMapping("/find-nearby-employees")
     @PreAuthorize("hasAuthority('worker:read')")
-    public ResponseEntity<List<ChatContactDTO>> findNearbyEmployees(@RequestBody CommonSearchDTO commonSearchDTO) {
+    public ResponseEntity<ChatContactResponseDTO> findNearbyEmployees(@RequestBody CommonSearchDTO commonSearchDTO) {
         log.info("MobileController.findNearbyEmployees. employeeId: " + commonSearchDTO.getId());
-        return new ResponseEntity<>(mobileService.findNearbyEmployees(commonSearchDTO), HttpStatus.OK);
+        ChatContactResponseDTO chatContactResponseDTO = new ChatContactResponseDTO();
+        chatContactResponseDTO.setData(mobileService.findNearbyEmployees(commonSearchDTO));
+        return new ResponseEntity<>(chatContactResponseDTO, HttpStatus.OK);
     }
 
 

@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class ChatContactDTO {
     private Long employeeId;
+    private Long userId;
     private String name;
     private String email;
     private String phone;

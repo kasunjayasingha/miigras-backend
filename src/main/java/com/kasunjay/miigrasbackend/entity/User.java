@@ -49,6 +49,9 @@ public class User implements UserDetails {
 
     private boolean enabled = false;
 
+    @Column(name = "is_firebase_registered")
+    private Boolean isFirebaseRegistered = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

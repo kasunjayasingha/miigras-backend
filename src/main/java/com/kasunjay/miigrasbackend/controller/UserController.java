@@ -100,6 +100,11 @@ public class UserController {
         return new ResponseEntity<>(userService.isValidToken(jwtToken),HttpStatus.OK);
     }
 
+    @PostMapping("/updateFirebaseStatus")
+    public ResponseEntity<StandardResponse> updateFirebaseStatus(@RequestParam("userId") Long userId) {
+        return new ResponseEntity<>(userService.updateFirebaseStatus(userId), HttpStatus.OK);
+    }
+
     private String applicationUrl(HttpServletRequest request) {
         return "http://" +
                 request.getServerName() +

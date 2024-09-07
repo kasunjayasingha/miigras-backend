@@ -187,7 +187,8 @@ public class UserServiceImpl implements UserService {
                 return new AuthResponseDTO(
                         user.get().getId(),
                         user.get().getRole(),
-                        access_token
+                        access_token,
+                        user.get().getIsFirebaseRegistered()
                 );
             } else {
                 throw new UserException("Invalid Credentials");
@@ -273,6 +274,24 @@ public class UserServiceImpl implements UserService {
             return new StandardResponse(HttpStatus.UNAUTHORIZED, Success.FAILURE, "Invalid Token");
         }else {
             return new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Valid Token");
+        }
+    }
+
+    @Override
+    public StandardResponse updateFirebaseStatus(Long userId) {
+        log.info("updateFirebaseStatus service method called");
+        try{
+            Optional<User> user = userRepository.findById(userId);
+            if (!user.isPresent()) {
+                throw new UserException("User not found");
+            }
+            user.get().setIsFirebaseRegistered(true);
+            userRepository.save(user.get());
+            return new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Firebase Status Updated");
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new UserException(e.getMessage());
         }
     }
 

@@ -10,4 +10,5 @@ public class AuthResponseDTO {
     private Long id;
     private Roles role;
     private String accessToken;
+    private Boolean isFirebaseRegistered;
 }

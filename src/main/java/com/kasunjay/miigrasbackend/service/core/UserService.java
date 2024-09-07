@@ -30,4 +30,6 @@ public interface UserService {
     StandardResponse userStatusChange(UserModel userModel);
 
     StandardResponse isValidToken(String jwtToken);
+
+    StandardResponse updateFirebaseStatus(Long userId);
 }
