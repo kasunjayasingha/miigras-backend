@@ -35,3 +35,6 @@ application:
     emotion:
         prediction:
             url: http://127.0.0.1:8000/send
+
+    firebase:
+        server-key: miigras-app-firebase-adminsdk-einfs-dc0a5ee033.json
