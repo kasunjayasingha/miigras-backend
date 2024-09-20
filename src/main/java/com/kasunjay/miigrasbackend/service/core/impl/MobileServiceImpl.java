@@ -1,5 +1,8 @@
 package com.kasunjay.miigrasbackend.service.core.impl;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import com.kasunjay.miigrasbackend.common.enums.Emotion;
 import com.kasunjay.miigrasbackend.common.enums.Level;
 import com.kasunjay.miigrasbackend.common.exception.MobileException;
@@ -12,6 +15,7 @@ import com.kasunjay.miigrasbackend.model.CommonSearchDTO;
 import com.kasunjay.miigrasbackend.model.mobile.ChatContactDTO;
 import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
+import com.kasunjay.miigrasbackend.model.web.FirebaseNotificationDTO;
 import com.kasunjay.miigrasbackend.repository.EmployeeRepo;
 import com.kasunjay.miigrasbackend.repository.EmployeeTrackingRepo;
 import com.kasunjay.miigrasbackend.repository.PredictionRepo;
@@ -52,7 +56,6 @@ public class MobileServiceImpl implements MobileService {
 
     @Override
     public void predict(PredictionModel predictionModel) {
-        log.info("MobileServiceImpl.predict. employeeId: " + predictionModel.getEmployeeId());
         try {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -64,7 +67,11 @@ public class MobileServiceImpl implements MobileService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.info("Prediction done");
                 Prediction prediction = new Prediction();
-                prediction.setEmployee(employeeRepo.findById(predictionModel.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found")));
+                Employee employee = employeeRepo.findById(predictionModel.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found"));
+                employee.setFcmToken(predictionModel.getFcmToken());
+                employee = employeeRepo.save(employee);
+                prediction.setEmployee(employee);
+
                 prediction.setMessage(predictionModel.getMessage());
                 prediction.setScore(calculateEmotionScore(new JSONObject(response.getBody())));
 
@@ -82,6 +89,12 @@ public class MobileServiceImpl implements MobileService {
                 prediction.setEmotionScore(highEmotionScores.get(Emotion.valueOf(highEmotionScores.keySet().toArray()[0].toString())));
                 prediction.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
                 predictionRepo.save(prediction);
+
+                FirebaseNotificationDTO firebaseNotificationDTO = new FirebaseNotificationDTO();
+                firebaseNotificationDTO.setFcmToken(predictionModel.getFcmToken());
+                firebaseNotificationDTO.setTitle("SLBFE");
+                firebaseNotificationDTO.setBody("Your message received us. Please be calm. We will contact you soon.");
+                sendNotification(firebaseNotificationDTO);
             } else {
                 log.warn("Request failed with status: " + response.getStatusCode());
                 throw new MobileException("Request failed with status::: " + response.getStatusCode());
@@ -181,6 +194,31 @@ public class MobileServiceImpl implements MobileService {
             log.error("Error during finding nearby employees", e);
             throw new MobileException(e.getMessage());
         }
+    }
+
+    @Override
+    public void sendNotification(FirebaseNotificationDTO firebaseNotificationDTO) {
+        try {
+            Notification notification = Notification.builder()
+                    .setTitle(firebaseNotificationDTO.getTitle())
+                    .setBody(firebaseNotificationDTO.getBody())
+                    .build();
+
+            Message message = Message.builder()
+                    .setNotification(notification)
+                    .setToken(firebaseNotificationDTO.getFcmToken()) // The recipient's FCM token
+                    .build();
+            // Send a message to the device corresponding to the provided registration token.
+            FirebaseMessaging.getInstance().sendAsync(message)
+                    .addListener(
+                            () -> log.info("Successfully sent message: " + message),
+                            e -> log.error("Error sending message: " + message, e)
+                    );
+        }catch (Exception e){
+            log.error("Error during sending notification", e);
+            throw new MobileException(e.getMessage());
+        }
+
     }
 
     private List<EmployeeTracking> getLatestEmployeeLocationData(List<EmployeeTracking> nearbyEmployees) {

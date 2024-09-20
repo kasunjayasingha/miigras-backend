@@ -35,6 +35,9 @@ public class Employee extends BaseEntity {
     @Column(name = "job_type")
     private JobTypes jobType;
 
+    @Column(name = "fcm_token", length = 1000, nullable = true)
+    private String fcmToken;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "gradient_id")
     private Gradient gradient;

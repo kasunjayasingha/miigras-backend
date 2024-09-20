@@ -8,6 +8,7 @@ import com.kasunjay.miigrasbackend.model.mobile.ChatContactResponseDTO;
 import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
 import com.kasunjay.miigrasbackend.model.web.EmployeeDTO;
+import com.kasunjay.miigrasbackend.model.web.FirebaseNotificationDTO;
 import com.kasunjay.miigrasbackend.service.core.MainService;
 import com.kasunjay.miigrasbackend.service.core.MobileService;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,14 @@ public class MobileController {
         ChatContactResponseDTO chatContactResponseDTO = new ChatContactResponseDTO();
         chatContactResponseDTO.setData(mobileService.findNearbyEmployees(commonSearchDTO));
         return new ResponseEntity<>(chatContactResponseDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/send-notification")
+    @PreAuthorize("hasAuthority('worker:update')")
+    public ResponseEntity<StandardResponse> sendNotification(@RequestBody FirebaseNotificationDTO firebaseNotificationDTO) {
+        log.info("MobileController.sendNotification. employeeId: " + firebaseNotificationDTO.getTitle());
+        mobileService.sendNotification(firebaseNotificationDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Notification sent"), HttpStatus.OK);
     }
 
 

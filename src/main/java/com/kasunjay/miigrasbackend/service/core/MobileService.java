@@ -4,6 +4,7 @@ import com.kasunjay.miigrasbackend.model.CommonSearchDTO;
 import com.kasunjay.miigrasbackend.model.mobile.ChatContactDTO;
 import com.kasunjay.miigrasbackend.model.mobile.LocationRequestDTO;
 import com.kasunjay.miigrasbackend.model.mobile.PredictionModel;
+import com.kasunjay.miigrasbackend.model.web.FirebaseNotificationDTO;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MobileService {
     void removeEveryLocationData();
 
     List<ChatContactDTO> findNearbyEmployees(CommonSearchDTO commonSearchDTO);
+
+    void sendNotification(FirebaseNotificationDTO firebaseNotificationDTO);
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class PredictionModel {
     private long employeeId;
     private String message;
+    private String fcmToken;
 }
