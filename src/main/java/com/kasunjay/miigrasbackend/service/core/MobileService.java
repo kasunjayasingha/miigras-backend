@@ -18,4 +18,6 @@ public interface MobileService {
     List<ChatContactDTO> findNearbyEmployees(CommonSearchDTO commonSearchDTO);
 
     void sendNotification(FirebaseNotificationDTO firebaseNotificationDTO);
+
+    void sos(Long employeeId);
 }

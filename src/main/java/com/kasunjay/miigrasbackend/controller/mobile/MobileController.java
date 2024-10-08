@@ -69,5 +69,13 @@ public class MobileController {
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Notification sent"), HttpStatus.OK);
     }
 
+    @PostMapping("/sos/{employeeId}")
+    @PreAuthorize("hasAuthority('worker:update')")
+    public ResponseEntity<StandardResponse> sos(@PathVariable Long employeeId) {
+        log.info("MobileController.sos. employeeId: " + employeeId);
+        mobileService.sos(employeeId);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "SOS sent"), HttpStatus.OK);
+    }
+
 
 }

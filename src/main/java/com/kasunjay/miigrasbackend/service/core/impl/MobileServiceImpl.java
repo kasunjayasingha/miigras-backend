@@ -10,6 +10,7 @@ import com.kasunjay.miigrasbackend.common.exception.UserException;
 import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.mobile.EmployeeTracking;
 import com.kasunjay.miigrasbackend.entity.mobile.Prediction;
+import com.kasunjay.miigrasbackend.entity.mobile.SOS;
 import com.kasunjay.miigrasbackend.entity.web.Employee;
 import com.kasunjay.miigrasbackend.model.CommonSearchDTO;
 import com.kasunjay.miigrasbackend.model.mobile.ChatContactDTO;
@@ -19,6 +20,7 @@ import com.kasunjay.miigrasbackend.model.web.FirebaseNotificationDTO;
 import com.kasunjay.miigrasbackend.repository.EmployeeRepo;
 import com.kasunjay.miigrasbackend.repository.EmployeeTrackingRepo;
 import com.kasunjay.miigrasbackend.repository.PredictionRepo;
+import com.kasunjay.miigrasbackend.repository.SOSRepo;
 import com.kasunjay.miigrasbackend.service.core.MobileService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,11 +50,15 @@ public class MobileServiceImpl implements MobileService {
     @Value("${application.emotion.prediction.url}")
     private String PREDICTION_MODEL_URL;
 
+    private static final String EMPLOYEE_NOT_FOUND = "Employee not found";
+
     private final EmployeeRepo employeeRepo;
 
     private final PredictionRepo predictionRepo;
 
     private final EmployeeTrackingRepo employeeTrackingRepo;
+
+    private final SOSRepo sosRepo;
 
     @Override
     public void predict(PredictionModel predictionModel) {
@@ -67,7 +73,7 @@ public class MobileServiceImpl implements MobileService {
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.info("Prediction done");
                 Prediction prediction = new Prediction();
-                Employee employee = employeeRepo.findById(predictionModel.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found"));
+                Employee employee = employeeRepo.findById(predictionModel.getEmployeeId()).orElseThrow(() -> new UserException(EMPLOYEE_NOT_FOUND));
                 employee.setFcmToken(predictionModel.getFcmToken());
                 employee = employeeRepo.save(employee);
                 prediction.setEmployee(employee);
@@ -110,7 +116,7 @@ public class MobileServiceImpl implements MobileService {
     public void updateLocation(LocationRequestDTO locationRequestDTO) {
         try{
             log.info("MobileServiceImpl.updateLocation. employeeId: " + locationRequestDTO.getEmployeeId());
-            Employee employee = employeeRepo.findById(locationRequestDTO.getEmployeeId()).orElseThrow(() -> new UserException("Employee not found"));
+            Employee employee = employeeRepo.findById(locationRequestDTO.getEmployeeId()).orElseThrow(() -> new UserException(EMPLOYEE_NOT_FOUND));
 
             Optional<EmployeeTracking> employeeAndIsAvailable = employeeTrackingRepo.findByEmployeeAndIsAvailable(employee, true);
             if (employeeAndIsAvailable.isPresent()) {
@@ -155,7 +161,7 @@ public class MobileServiceImpl implements MobileService {
     public List<ChatContactDTO> findNearbyEmployees(CommonSearchDTO commonSearchDTO) {
         try {
             log.info("MobileServiceImpl.findNearbyEmployees. employeeId: " + commonSearchDTO.getRadius());
-            Employee employee = employeeRepo.findById(commonSearchDTO.getId()).orElseThrow(() -> new UserException("Employee not found"));
+            Employee employee = employeeRepo.findById(commonSearchDTO.getId()).orElseThrow(() -> new UserException(EMPLOYEE_NOT_FOUND));
             Optional<EmployeeTracking> employeeTracking = employeeTrackingRepo.findByEmployeeAndIsAvailable(employee, true);
             if (employeeTracking.isEmpty()) {
                 throw new MobileException("Location data not found");
@@ -221,26 +227,27 @@ public class MobileServiceImpl implements MobileService {
 
     }
 
-    private List<EmployeeTracking> getLatestEmployeeLocationData(List<EmployeeTracking> nearbyEmployees) {
-        // Map to store the latest location for each employee
-        Map<Long, EmployeeTracking> latestLocationsMap = new HashMap<>();
-
-        for (EmployeeTracking nearbyEmployee : nearbyEmployees) {
-            Long nearbyEmployeeId = nearbyEmployee.getEmployee().getId();
-            EmployeeTracking existingTracking = latestLocationsMap.get(nearbyEmployeeId);
-
-            if (existingTracking == null || nearbyEmployee.getCreatedDate().isAfter(existingTracking.getCreatedDate())) {
-                latestLocationsMap.put(nearbyEmployeeId, nearbyEmployee);
-            }
+    @Override
+    public void sos(Long employeeId) {
+        try {
+            log.info("MobileServiceImpl.sos.employeeId: " + employeeId);
+            Employee employee = employeeRepo.findById(employeeId).orElseThrow(() -> new UserException(EMPLOYEE_NOT_FOUND));
+            sosRepo.findByEmployeeAndActive(employee, true).ifPresent(sos -> {
+                sos.setActive(false);
+                sosRepo.save(sos);
+            });
+            // save SOS
+            SOS sos = new SOS();
+            sos.setEmployee(employee);
+            sos.setActive(true);
+            sos.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
+            sosRepo.save(sos);
+            log.info("SOS sent");
+        }catch (Exception e){
+            log.error("Error during SOS", e);
+            throw new MobileException(e.getMessage());
         }
 
-        // Convert the map values to a list
-        List<EmployeeTracking> uniqueLatestLocations = new ArrayList<>(latestLocationsMap.values());
-
-        if (uniqueLatestLocations.isEmpty()) {
-            return null;
-        }
-        return uniqueLatestLocations;
     }
 
     private double calculateEmotionScore(JSONObject jsonObject){
@@ -248,7 +255,10 @@ public class MobileServiceImpl implements MobileService {
             log.info("Calculating emotion score");
             JSONArray resultArray = jsonObject.getJSONArray("result");
 
-            double angerScore = 0, disgustScore = 0, fearScore = 0, sadnessScore = 0;
+            double angerScore = 0,
+                    disgustScore = 0,
+                    fearScore = 0,
+                    sadnessScore = 0;
             for (int i = 0; i < resultArray.length(); i++) {
                 JSONObject resultObject = resultArray.getJSONObject(i);
                 String label = resultObject.getString("label");
@@ -265,6 +275,8 @@ public class MobileServiceImpl implements MobileService {
                         break;
                     case "sadness":
                         sadnessScore = score;
+                        break;
+                    default:
                         break;
                 }
             }
@@ -314,6 +326,8 @@ public class MobileServiceImpl implements MobileService {
                 case "neutral":
                     highEmotionScores.put(Emotion.NEUTRAL, previousScore);
                     break;
+                default:
+                    highEmotionScores.put(Emotion.NEUTRAL, previousScore);
             }
             return highEmotionScores;
         }catch (Exception e){
