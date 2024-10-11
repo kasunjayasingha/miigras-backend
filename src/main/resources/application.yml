@@ -6,12 +6,12 @@ spring:
         name: miigras-backend
 
     datasource:
-        url: jdbc:mysql://localhost:3307/miigras_db
+        url: jdbc:mysql://localhost:3306/miigras_db
         username: root
         password: KhT321
         driver-class-name: com.mysql.cj.jdbc.Driver
     jpa:
-        show-sql: true
+        show-sql: false
         hibernate:
             ddl-auto: update
     output:

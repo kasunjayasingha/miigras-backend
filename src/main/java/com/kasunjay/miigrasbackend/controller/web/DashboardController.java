@@ -23,13 +23,13 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
 
-    @GetMapping("/getTilesValues")
-    public ResponseEntity<DashboardDTO> getCountryList() {
+    @GetMapping("/getTilesData")
+    public ResponseEntity<DashboardDTO> getTilesValues() {
         log.info("DashboardController.getTilesValues");
         return new ResponseEntity<>(dashboardService.getTilesValues(), HttpStatus.OK);
     }
 
-    @GetMapping("/getIncidents")
+    @GetMapping("/getIncidentsData")
     public ResponseEntity<List<IncidentDTO>> getIncidents() {
         log.info("DashboardController.getIncidents");
         return new ResponseEntity<>(dashboardService.getIncidents(), HttpStatus.OK);
