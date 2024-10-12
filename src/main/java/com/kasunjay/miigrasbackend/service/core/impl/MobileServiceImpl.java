@@ -103,7 +103,7 @@ public class MobileServiceImpl implements MobileService {
                 firebaseNotificationDTO.setFcmToken(predictionModel.getFcmToken());
                 firebaseNotificationDTO.setTitle("SLBFE");
                 firebaseNotificationDTO.setBody("Your message received us. Please be calm. We will contact you soon.");
-                sendNotification(firebaseNotificationDTO);
+//                sendNotification(firebaseNotificationDTO);
             } else {
                 log.warn("Request failed with status: " + response.getStatusCode());
                 throw new MobileException("Request failed with status::: " + response.getStatusCode());

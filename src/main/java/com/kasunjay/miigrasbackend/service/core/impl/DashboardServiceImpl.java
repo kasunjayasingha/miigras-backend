@@ -73,13 +73,34 @@ public class DashboardServiceImpl implements DashboardService {
         try {
 //            log.info("DashboardServiceImpl.getIncidents");
             List<Prediction> predictions = predictionRepo.findByIsCheckFalseOrderByScoreDescCreatedDateDesc();
-            if(predictions.isEmpty()){
-                return null;
-            }
+            List<Prediction> predictionsList = predictionRepo.findAll();
             List<IncidentDashBoardDTO> incidentDashBoardDTOList = new ArrayList<>();
             List<PredictionDTO> todayPredictionList = new ArrayList<>();
             List<PredictionDTO> lastPredictionList = new ArrayList<>();
             LocalDateTime currentDate = LocalDateTime.now();
+            if(predictions.isEmpty()){
+                if(predictionsList.isEmpty()){
+                    return null;
+                }else {
+                    for (Prediction prediction : predictionsList) {
+                        PredictionDTO predictionDTO;
+                        if(prediction.getCreatedDate().toLocalDate().isEqual(currentDate.toLocalDate())) {
+                            predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
+                            predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
+                            todayPredictionList.add(predictionDTO);
+                        }else {
+                            predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
+                            predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
+                            lastPredictionList.add(predictionDTO);
+                        }
+                    }
+                    IncidentDashBoardDTO incidentDashBoardDTO = new IncidentDashBoardDTO();
+                    incidentDashBoardDTO.setTodayPrediction(todayPredictionList);
+                    incidentDashBoardDTO.setLastPrediction(lastPredictionList);
+                    incidentDashBoardDTOList.add(incidentDashBoardDTO);
+                    return incidentDashBoardDTOList;
+                }
+            }
             for (Prediction prediction : predictions) {
                 IncidentDashBoardDTO incidentDashBoardDTO = new IncidentDashBoardDTO();
                 incidentDashBoardDTO.setId(prediction.getId());
@@ -90,20 +111,26 @@ public class DashboardServiceImpl implements DashboardService {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 incidentDashBoardDTO.setIncidentDate(prediction.getCreatedDate().format(formatter));
 
-                PredictionDTO predictionDTO;
-                if(prediction.getCreatedDate().toLocalDate().isEqual(currentDate.toLocalDate())) {
-                    predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
-                    predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
-                    todayPredictionList.add(predictionDTO);
-                }else {
-                    predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
-                    predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
-                    lastPredictionList.add(predictionDTO);
-                }
                 incidentDashBoardDTOList.add(incidentDashBoardDTO);
             }
-            incidentDashBoardDTOList.get(0).setTodayPrediction(todayPredictionList);
-            incidentDashBoardDTOList.get(0).setLastPrediction(lastPredictionList);
+
+            if (!predictionsList.isEmpty()) {
+                for (Prediction prediction : predictionsList) {
+                    PredictionDTO predictionDTO;
+                    if(prediction.getCreatedDate().toLocalDate().isEqual(currentDate.toLocalDate())) {
+                        predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
+                        predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
+                        todayPredictionList.add(predictionDTO);
+                    }else {
+                        predictionDTO = dashboardMapper.predictionToPredictionDTO(prediction);
+                        predictionDTO.setName(prediction.getEmployee().getPerson().getFirstName() + " " + prediction.getEmployee().getPerson().getLastName());
+                        lastPredictionList.add(predictionDTO);
+                    }
+                }
+                incidentDashBoardDTOList.get(0).setTodayPrediction(todayPredictionList);
+                incidentDashBoardDTOList.get(0).setLastPrediction(lastPredictionList);
+            }
+
             return incidentDashBoardDTOList;
         } catch (Exception e) {
             log.error("Error in DashboardServiceImpl.getIncidents: ", e);
