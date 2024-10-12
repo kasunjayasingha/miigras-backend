@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.controller.web;
 
 import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.mobile.EmployeeTrackingDTO;
 import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
@@ -111,4 +112,11 @@ public class MainController {
         mainService.updateEmployee(employeeDTO);
         return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Employee updated"), HttpStatus.OK);
     }
+
+    @GetMapping("/getEmployeeLocationByEmployeeId/{employeeId}")
+    public ResponseEntity<EmployeeTrackingDTO> getEmployeeLocationByEmployeeId(@PathVariable Long employeeId) {
+        log.info("MainController.getEmployeeLocationByEmployeeId.employeeId:" + employeeId);
+        return new ResponseEntity<>(mainService.getEmployeeLocationByEmployeeId(employeeId), HttpStatus.OK);
+    }
+
 }

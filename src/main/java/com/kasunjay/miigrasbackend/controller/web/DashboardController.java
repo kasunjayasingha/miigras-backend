@@ -1,7 +1,9 @@
 package com.kasunjay.miigrasbackend.controller.web;
 
 
+import com.kasunjay.miigrasbackend.common.enums.Success;
 import com.kasunjay.miigrasbackend.entity.web.Country;
+import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.web.DashboardDTO;
 import com.kasunjay.miigrasbackend.model.web.IncidentDTO;
 import com.kasunjay.miigrasbackend.model.web.IncidentDashBoardDTO;
@@ -10,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +40,12 @@ public class DashboardController {
     public ResponseEntity<IncidentDTO> getIncidentsById(@PathVariable Long id) {
         log.info("DashboardController.getIncidentsById");
         return new ResponseEntity<>(dashboardService.getIncidentsById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/complete-incident")
+    public ResponseEntity<StandardResponse> completeIncident(@RequestBody IncidentDTO incidentDTO) {
+        log.info("DashboardController.completeIncident");
+        dashboardService.completeIncident(incidentDTO);
+        return new ResponseEntity<>(new StandardResponse(HttpStatus.OK, Success.SUCCESS, "Incident completed"), HttpStatus.OK);
     }
 }

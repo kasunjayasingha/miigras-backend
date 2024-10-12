@@ -12,5 +12,7 @@ public interface PredictionRepo extends JpaRepository<Prediction, Long> {
 
     List<Prediction> findByIsCheckFalseOrderByScoreDescCreatedDateDesc();
 
-    long countPredictionByCreatedDateBetween(LocalDateTime oneMonthBefore, LocalDateTime currentDate);
+    long countPredictionByCreatedDateBetweenAndIsCheckFalse(LocalDateTime oneMonthBefore, LocalDateTime currentDate);
+
+    long countPredictionByIsCheckFalse();
 }

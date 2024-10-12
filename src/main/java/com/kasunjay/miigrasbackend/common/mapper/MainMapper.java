@@ -1,10 +1,13 @@
 package com.kasunjay.miigrasbackend.common.mapper;
 
+import com.kasunjay.miigrasbackend.entity.mobile.EmployeeTracking;
 import com.kasunjay.miigrasbackend.entity.web.*;
+import com.kasunjay.miigrasbackend.model.mobile.EmployeeTrackingDTO;
 import com.kasunjay.miigrasbackend.model.web.*;
 import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MainMapper {
@@ -45,4 +48,7 @@ public interface MainMapper {
 
     @IterableMapping(qualifiedByName = "employeeToEmployeeDTO")
     List<EmployeeDTO> mapToEmployeeDTOList(List<Employee> employees);
+
+    @Mapping(target = "employee", ignore = true)
+    EmployeeTrackingDTO employeeTrackingToEmployeeTrackingDTO(EmployeeTracking employeeTracking);
 }

@@ -1,5 +1,6 @@
 package com.kasunjay.miigrasbackend.service.core;
 
+import com.kasunjay.miigrasbackend.model.StandardResponse;
 import com.kasunjay.miigrasbackend.model.web.DashboardDTO;
 import com.kasunjay.miigrasbackend.model.web.IncidentDTO;
 import com.kasunjay.miigrasbackend.model.web.IncidentDashBoardDTO;
@@ -12,4 +13,6 @@ public interface DashboardService {
     List<IncidentDashBoardDTO> getIncidents();
 
     IncidentDTO getIncidentsById(Long id);
+
+    void completeIncident(IncidentDTO incidentDTO);
 }

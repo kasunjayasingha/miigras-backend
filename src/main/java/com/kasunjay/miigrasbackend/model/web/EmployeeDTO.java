@@ -13,4 +13,5 @@ public class EmployeeDTO {
     private AgencyDTO agency;
     private GradientDTO gradient;
     private JobTypes jobType;
+    private String fcmToken;
 }

@@ -92,6 +92,9 @@ public class MobileServiceImpl implements MobileService {
                 HashMap<Emotion, Double> highEmotionScores = getHighEmotionScores(new JSONObject(response.getBody()));
 
                 prediction.setEmotion((Emotion) highEmotionScores.keySet().toArray()[0]);
+                if(prediction.getEmotion().equals(Emotion.NEUTRAL) || prediction.getEmotion().equals(Emotion.HAPPY)){
+                    prediction.setIsCheck(true);
+                }
                 prediction.setEmotionScore(highEmotionScores.get(Emotion.valueOf(highEmotionScores.keySet().toArray()[0].toString())));
                 prediction.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
                 predictionRepo.save(prediction);

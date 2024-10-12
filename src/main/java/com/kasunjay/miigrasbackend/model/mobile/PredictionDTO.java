@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class PredictionDTO {
+    private long id;
     private double score;
     private Level severity;
     private String message;
@@ -15,4 +16,5 @@ public class PredictionDTO {
     private double emotionScore;
     private Boolean isCheck;
     private EmployeeDTO employee;
+    private String name;
 }

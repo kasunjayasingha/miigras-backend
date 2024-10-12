@@ -5,8 +5,10 @@ import com.kasunjay.miigrasbackend.common.exception.MainServiceException;
 import com.kasunjay.miigrasbackend.common.mapper.MainMapper;
 import com.kasunjay.miigrasbackend.common.util.AutherizedUserService;
 import com.kasunjay.miigrasbackend.entity.User;
+import com.kasunjay.miigrasbackend.entity.mobile.EmployeeTracking;
 import com.kasunjay.miigrasbackend.entity.web.*;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.mobile.EmployeeTrackingDTO;
 import com.kasunjay.miigrasbackend.model.web.*;
 import com.kasunjay.miigrasbackend.repository.*;
 import com.kasunjay.miigrasbackend.service.core.MainService;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,6 +38,7 @@ public class MainServiceImpl implements MainService {
     private final EmployeeRepo employeeRepo;
     private final PersonRepo personRepo;
     private final UserService userService;
+    private final EmployeeTrackingRepo employeeTrackingRepo;
 
     @Override
     public void saveCountry(CountryDTO countryDTO) {
@@ -225,6 +229,29 @@ public class MainServiceImpl implements MainService {
         log.info("MainServiceImpl.getEmployeeByUserId.called");
         try {
             return mainMapper.employeeToEmployeeDTO(employeeRepo.findByUser_Id(userId));
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new MainServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public EmployeeTrackingDTO getEmployeeLocationByEmployeeId(Long employeeId) {
+        log.info("MainServiceImpl.getEmployeeLocationByEmployeeId.called");
+        try {
+            Optional<Employee> employee = employeeRepo.findById(employeeId);
+            if(!employee.isPresent()){
+                log.error("MainServiceImpl.getEmployeeLocationByEmployeeId.employee is null");
+                throw new MainServiceException("Employee is null");
+            }
+            Optional<EmployeeTracking> employeeTracking = employeeTrackingRepo.findByEmployeeAndIsAvailable(employee.get(), true);
+            if (!employeeTracking.isPresent()){
+                return null;
+            }
+            EmployeeTrackingDTO employeeTrackingDTO = new EmployeeTrackingDTO();
+            employeeTrackingDTO.setLatitude(employeeTracking.get().getLatitude());
+            employeeTrackingDTO.setLongitude(employeeTracking.get().getLongitude());
+            return employeeTrackingDTO;
         }catch (Exception e){
             e.printStackTrace();
             throw new MainServiceException(e.getMessage());

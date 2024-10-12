@@ -2,6 +2,7 @@ package com.kasunjay.miigrasbackend.service.core;
 
 import com.kasunjay.miigrasbackend.entity.web.Country;
 import com.kasunjay.miigrasbackend.model.StandardResponse;
+import com.kasunjay.miigrasbackend.model.mobile.EmployeeTrackingDTO;
 import com.kasunjay.miigrasbackend.model.web.AgencyDTO;
 import com.kasunjay.miigrasbackend.model.web.CountryDTO;
 import com.kasunjay.miigrasbackend.model.web.DomainMinistryDTO;
@@ -35,4 +36,6 @@ public interface MainService {
     void updateEmployee(EmployeeDTO employeeDTO);
 
     EmployeeDTO getEmployeeByUserId(Long userId);
+
+    EmployeeTrackingDTO getEmployeeLocationByEmployeeId(Long employeeId);
 }
