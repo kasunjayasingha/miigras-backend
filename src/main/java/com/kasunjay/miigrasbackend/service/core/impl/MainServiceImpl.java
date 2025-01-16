@@ -49,7 +49,6 @@ public class MainServiceImpl implements MainService {
             }
             // Save country
             Country country = mainMapper.countryDTOToCountry(countryDTO);
-            country.setCreatedBy(AutherizedUserService.getAutherizedUser().getUsername());
             countryRepo.save(country);
             log.info("MainServiceImpl.saveCountry.country saved: {}", country.getName());
         }catch (Exception e){
